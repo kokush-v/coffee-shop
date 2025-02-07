@@ -1,26 +1,28 @@
 "use client";
 
 import { Modal } from "antd";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { ProductModalFooter } from "@/src/features/products/components/product-modal-footer";
 import { Typography } from "@/src/components/ui/typography";
 
-import { Product } from "@/src/features/products/types/product";
+import { ProductContext } from "@/src/features/products/context/product-context";
 
-export const ProductModal = ({
-  children,
-  product,
-}: {
-  product: Product;
-  children: React.ReactNode;
-}) => {
+import { weight } from "@/src/lib/utils";
+import { Weight } from "lucide-react";
+
+export const ProductModal = ({ children }: { children: React.ReactNode }) => {
+  const product = useContext(ProductContext);
+
   const [open, setOpen] = useState(false);
+
+  if (!product) return null;
+
   return (
     <>
       <div onClick={() => setOpen(true)}>{children}</div>
       <Modal
-        footer={() => <ProductModalFooter />}
+        footer={() => <ProductModalFooter setOpen={setOpen} />}
         centered
         onCancel={() => setOpen(false)}
         open={open}
@@ -34,8 +36,9 @@ export const ProductModal = ({
             {product.price} грн.
           </Typography>
         </div>
-        <Typography className="text-sm text-zinc-500 font-medium">
-          {product.weight} г.
+        <Typography className="text-sm text-zinc-500 font-medium flex-row flex items-center gap-1">
+          <Weight size={14} />
+          {weight(product.weight)}
         </Typography>
         <Typography variant="p" className="text-sm mt-1 text-zinc-700">
           {product.description}
