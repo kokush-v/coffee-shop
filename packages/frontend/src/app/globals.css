@@ -11,10 +11,10 @@ body {
 }
 
 .coffee-beans-bg {
-  background-image: url("/coffee-beans-bg.jpg");
+  background-image: url("/coffee-beans-bg.png");
   background-size: 337px 600px;
   background-repeat: repeat;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.4);
   background-blend-mode: lighten;
 }
 

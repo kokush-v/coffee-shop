@@ -1,6 +1,7 @@
 import { dayFields } from "@/src/features/footer/const/work-hours-const";
 
 import { FooterSocialUrl } from "@/src/features/footer/components/footer-url";
+import { cn } from "@/src/lib/utils";
 
 export const Footer = () => {
   return (
@@ -13,10 +14,13 @@ export const Footer = () => {
         </div>
         <div className="space-y-1 mt-2">
           <h2 className="footer-heading">Робочий час</h2>
-          {dayFields.map((day) => (
+          {dayFields.map((day, index) => (
             <p
               key={day.label}
-              className="text-xs font-medium text-zinc-700 flex flex-row w-[180px]"
+              className={cn(
+                "text-xs font-medium text-zinc-700 flex flex-row w-[180px]",
+                new Date().getDay() == index + 1 && "text-black font-bold"
+              )}
             >
               {day.label} <span className="flex-1 text-right">{day.time}</span>
             </p>
