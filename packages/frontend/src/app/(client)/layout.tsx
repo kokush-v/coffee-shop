@@ -14,7 +14,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="bg-white max-w-6xl mx-auto h-screen flex flex-col">
+    <main className="bg-white max-w-6xl mx-auto min-h-screen flex flex-col">
       <Header />
       <section className="flex-1">{children}</section>
       <Footer />

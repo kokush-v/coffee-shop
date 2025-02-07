@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  min-width: 340px;
   color: var(--foreground);
   background: var(--background);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
@@ -19,7 +20,7 @@ body {
 }
 
 .layout-spacing-rule {
-  @apply px-12 w-full;
+  @apply px-12 max-sm:px-4 w-full;
 }
 
 .footer-contact {
@@ -27,7 +28,7 @@ body {
 }
 
 .footer-heading {
-  @apply text-lg font-bold text-zinc-800;
+  @apply text-lg font-bold text-zinc-800 max-sm:text-base;
 }
 
 .footer-url {

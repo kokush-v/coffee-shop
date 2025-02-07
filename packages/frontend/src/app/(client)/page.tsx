@@ -1,3 +1,9 @@
+import { ProductsLayout } from "@/src/features/products/ui/products-layout";
+
 export default function Home() {
-  return <main></main>;
+  return (
+    <main>
+      <ProductsLayout />
+    </main>
+  );
 }
