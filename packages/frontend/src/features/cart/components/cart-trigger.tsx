@@ -1,13 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { Popover } from "antd";
 
-import { useAppSelector } from "@/src/store";
+import { useAppDispatch, useAppSelector } from "@/src/store";
 
 import { Button } from "@/src/components/ui/button";
 import { Typography } from "@/src/components/ui/typography";
 
 import { CartContent } from "@/src/features/cart/components/cart-content";
+import { cartMethods } from "@/src/features/cart/store/cart-slice";
 
 const PopoverTitle = () => {
   const items = useAppSelector((state) => state.cart.items);
@@ -30,6 +33,14 @@ const PopoverTitle = () => {
 };
 
 export const CartTrigger = () => {
+  const dispatch = useAppDispatch()
+
+  const {loadCartFromStorage} = cartMethods
+
+  useEffect(() => {
+    dispatch(loadCartFromStorage())
+  }, [dispatch, loadCartFromStorage])
+
   return (
     <div>
       <Popover

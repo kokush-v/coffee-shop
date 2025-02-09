@@ -4,13 +4,12 @@ import { Button } from "@/src/components/ui/button";
 
 import { CartItem } from "@/src/features/cart/types/cart";
 
-import { weight } from "@/src/lib/utils";
-
 import { useAppDispatch } from "@/src/store";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
 
 import { CartProductNote } from "@/src/features/cart/components/cart-product-note";
 import { CartProductContext } from "@/src/features/cart/context/cart-product-context";
+import Image from "next/image";
 
 const CartProductActions = ({ item }: { item: CartItem }) => {
   const dispatch = useAppDispatch();
@@ -59,11 +58,11 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
   return (
     <CartProductContext.Provider value={item}>
       <div className="flex items-center gap-4">
-        <div className="h-24 w-24 bg-zinc-100 rounded-lg" />
+        <Image src={item.product.image_src} alt={item.product.title} width={96} height={96} className="rounded-lg shrink-0 w-24 h-24 object-cover" />
         <div className="flex flex-col gap-0.5">
           <Typography variant="h4">{item.product.title}</Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
-            <Weight size={14} /> {weight(item.product.product_weight)}{" "}
+            <Weight size={14} /> {item.product.product_weight} г.
             {!!item.customerNote && (
               <span className="flex items-center gap-1">
                 • <Info size={12} strokeWidth={2.5} /> Присутня примітка

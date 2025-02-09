@@ -8,8 +8,8 @@ import { Typography } from "@/src/components/ui/typography";
 
 import { ProductContext } from "@/src/features/products/context/product-context";
 
-import { weight } from "@/src/lib/utils";
 import { Weight } from "lucide-react";
+import Image from "next/image";
 
 export const ProductModal = ({ children }: { children: React.ReactNode }) => {
   const product = useContext(ProductContext);
@@ -28,7 +28,7 @@ export const ProductModal = ({ children }: { children: React.ReactNode }) => {
         open={open}
         closable={false}
       >
-        <div className="bg-zinc-100 w-full h-[240px] mb-2 rounded-lg"></div>
+        <Image width={400} height={400} alt={product.title} src={product.image_src} className="bg-zinc-100 w-full h-[240px] mb-2 rounded-lg" />
 
         <div className="flex flex-row justify-between items-baseline">
           <Typography variant="h2">{product.title}</Typography>
@@ -38,7 +38,7 @@ export const ProductModal = ({ children }: { children: React.ReactNode }) => {
         </div>
         <Typography className="text-sm text-zinc-500 font-medium flex-row flex items-center gap-1">
           <Weight size={14} />
-          {weight(product.product_weight)}
+          {product.product_weight} г.
         </Typography>
         <Typography variant="p" className="text-sm mt-1 text-zinc-700">
           {product.description}
