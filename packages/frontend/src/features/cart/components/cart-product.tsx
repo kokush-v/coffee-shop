@@ -63,7 +63,7 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
         <div className="flex flex-col gap-0.5">
           <Typography variant="h4">{item.product.title}</Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
-            <Weight size={14} /> {weight(item.product.weight)}{" "}
+            <Weight size={14} /> {weight(item.product.product_weight)}{" "}
             {!!item.customerNote && (
               <span className="flex items-center gap-1">
                 • <Info size={12} strokeWidth={2.5} /> Присутня примітка

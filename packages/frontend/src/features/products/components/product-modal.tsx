@@ -38,7 +38,7 @@ export const ProductModal = ({ children }: { children: React.ReactNode }) => {
         </div>
         <Typography className="text-sm text-zinc-500 font-medium flex-row flex items-center gap-1">
           <Weight size={14} />
-          {weight(product.weight)}
+          {weight(product.product_weight)}
         </Typography>
         <Typography variant="p" className="text-sm mt-1 text-zinc-700">
           {product.description}
