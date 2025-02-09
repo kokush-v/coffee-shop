@@ -16,6 +16,9 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    loadCartFromStorage: (state) => {
+      state.items = JSON.parse(localStorage.getItem("cart") ?? "[]")
+    },
     addToCart: (state, action: PayloadAction<Omit<CartItem, "customerNote">>) => {
       if (state.items.find((item) => item.product.id == action.payload.product.id))
         return;
@@ -26,6 +29,7 @@ export const cartSlice = createSlice({
           customerNote: "",
         },
       ];
+      
     },
     increaseQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
