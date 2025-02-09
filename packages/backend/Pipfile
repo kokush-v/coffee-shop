@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
-psycopg2 = "*"
+psycopg = "*"
 python-dotenv = "*"
 
 [dev-packages]
