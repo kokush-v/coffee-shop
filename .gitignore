@@ -1,2 +1,4 @@
 /node_modules
 /.venv
+/packages/backend/db.sqlite3
+/packages/*/.env
