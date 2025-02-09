@@ -2,3 +2,4 @@
 /.venv
 /packages/*/.env
 /packages/*/postgres_data
+
