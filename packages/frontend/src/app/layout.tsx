@@ -8,6 +8,8 @@ import { Inter } from "next/font/google";
 
 import type { Metadata } from "next";
 
+import { ReduxProvider } from "@/src/providers/redux-provider";
+
 const interSans = Inter({
   variable: "--font-inter-sans",
   subsets: ["latin", "cyrillic"],
@@ -26,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interSans.className} antialiased coffee-beans-bg`}>
-        <AntdRegistry>{children}</AntdRegistry>
+        <ReduxProvider>
+          <AntdRegistry>{children}</AntdRegistry>
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import { cn } from "@/src/lib/utils";
 
 export const Footer = () => {
   return (
-    <footer className="py-2 border-t border-zinc-200 max-h-[270px] grid grid-cols-2 layout-spacing-rule">
+    <footer className="py-2 border-t border-zinc-200 grid grid-cols-2 layout-spacing-rule">
       <div>
         <div className="space-y-1">
           <h2 className="footer-heading">Контактні дані</h2>
@@ -27,7 +27,7 @@ export const Footer = () => {
           ))}
         </div>
       </div>
-      <div className="space-y-1 mt-2">
+      <div className="space-y-1">
         <h2 className="footer-heading">Ми в соцмережах</h2>
         <FooterSocialUrl src="/instagram.svg">Instagram</FooterSocialUrl>
         <FooterSocialUrl src="/telegram.svg">Telegram</FooterSocialUrl>
