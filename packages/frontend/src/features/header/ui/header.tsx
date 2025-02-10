@@ -1,5 +1,6 @@
+import { ProfileDropdownGuest } from "@/src/features/header/components/profile-dropdown-guest";
+
 import { CartTrigger } from "@/src/features/cart/components/cart-trigger";
-import { Avatar } from "antd";
 
 export const Header = () => {
   return (
@@ -10,7 +11,7 @@ export const Header = () => {
       </div>
       <div className="flex flex-row items-center gap-3">
         <CartTrigger />
-        <Avatar size={36} />
+        <ProfileDropdownGuest />
       </div>
     </header>
   );

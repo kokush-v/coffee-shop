@@ -28,7 +28,13 @@ export const ProductModal = ({ children }: { children: React.ReactNode }) => {
         open={open}
         closable={false}
       >
-        <Image width={400} height={400} alt={product.title} src={product.image_src} className="bg-zinc-100 w-full h-[240px] mb-2 rounded-lg" />
+        <Image
+          width={400}
+          height={400}
+          alt={product.title}
+          src={product.image_src}
+          className="bg-zinc-100 w-full h-[240px] mb-2 rounded-lg object-cover"
+        />
 
         <div className="flex flex-row justify-between items-baseline">
           <Typography variant="h2">{product.title}</Typography>
