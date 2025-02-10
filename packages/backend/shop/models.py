@@ -75,3 +75,4 @@ class ShopUser(AbstractUser):
     class Meta:
         verbose_name = 'shopuser'
         verbose_name_plural = 'shopusers'
+

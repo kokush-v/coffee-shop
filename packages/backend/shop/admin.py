@@ -5,6 +5,9 @@ from django.contrib.auth.admin import UserAdmin
 from . import models
 
 
+
+
+
 @admin.register(models.ShopUser)
 class MyUserAdmin(UserAdmin):
     model = models.ShopUser
