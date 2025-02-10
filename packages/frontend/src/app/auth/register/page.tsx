@@ -1,3 +1,3 @@
-import Register from "@/src/features/auth/ui/register";
+import { AuthRegisterForm } from "@/src/features/auth/components/auth-register-form";
 
-export default Register;
+export default AuthRegisterForm;
