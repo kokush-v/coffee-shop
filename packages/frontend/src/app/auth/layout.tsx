@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 
-import { Header } from "@/src/features/header/ui/header";
-import { Footer } from "@/src/features/footer/ui/footer";
-
 export const metadata: Metadata = {
-  title: "Coffee Shop",
+  title: "Coffee Shop - Auth",
   description: "Best coffee beans",
 };
 
@@ -15,9 +12,7 @@ export default function Layout({
 }>) {
   return (
     <main className="bg-white max-w-6xl mx-auto min-h-screen flex flex-col">
-      <Header />
       <section className="flex-1">{children}</section>
-      <Footer />
     </main>
   );
 }
