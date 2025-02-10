@@ -1,3 +1,3 @@
-import Login from "@/src/features/auth/ui/login";
+import { AuthLoginForm } from "@/src/features/auth/components/auth-login-form";
 
-export default Login;
+export default AuthLoginForm;
