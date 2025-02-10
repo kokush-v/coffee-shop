@@ -12,12 +12,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class RegisterShopUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8)
-    first_name = serializers.CharField(min_length=2)
-    last_name = serializers.CharField(min_length=2)
+    username = serializers.CharField(min_length=2)
 
     class Meta:
         model = ShopUser
-        fields = ['email', 'first_name', 'last_name', 'password']
+        fields = ['email', 'username', 'password']
 
     def create(self, validated_data):
         user = ShopUser.objects.create_user(**validated_data)
@@ -29,7 +28,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         user_dict = model_to_dict(
-            self.user, fields=['id', 'email', 'first_name', 'last_name'])
+            self.user, fields=['id', 'email', 'username'])
 
         data['user'] = user_dict
         return {'token': data['access'], 'user': user_dict}

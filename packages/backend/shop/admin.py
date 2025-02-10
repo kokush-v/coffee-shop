@@ -9,11 +9,17 @@ from . import models
 class MyUserAdmin(UserAdmin):
     model = models.ShopUser
     filter_horizontal = ()
-    fieldsets = UserAdmin.fieldsets
+
+    list_display = ('id', 'email', 'username', 'is_staff')
+
+    fieldsets = (
+        (None, {'fields': ('email', 'password',  'username')}),
+    )
+
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
+            'fields': ('email', 'username', 'password1', 'password2'),
         }),
     )
 

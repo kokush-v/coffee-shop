@@ -70,6 +70,10 @@ SIMPLE_JWT = {
     'TOKEN_OBTAIN_SERIALIZER': 'api.serializers.CustomTokenObtainPairSerializer',
 }
 
+CORS_ALLOWED_ORIGINS = [
+    '127.0.0.1:3000'
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
