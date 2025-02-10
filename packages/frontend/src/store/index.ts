@@ -1,12 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Middleware } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 
-import cartSlice from "@/src/features/cart/store/cart-slice";
+import cartSlice, { CartState } from "@/src/features/cart/store/cart-slice";
+
+const localStorageMiddleware: Middleware =
+  (store: { getState: () => { cart: CartState } }) => (next) => (action) => {
+    const result = next(action);
+
+    localStorage.setItem("cart", JSON.stringify(store.getState().cart.items));
+
+    return result;
+  };
 
 export const store = configureStore({
   reducer: {
     cart: cartSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(localStorageMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
