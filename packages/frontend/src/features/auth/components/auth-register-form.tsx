@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 
 import AuthService from "@/src/features/auth/api/auth-service";
 
+import { Loader } from "lucide-react";
+
 export const AuthRegisterForm = () => {
   const { control, handleSubmit, setError } = useForm<AuthRegisterFields>({
     resolver: zodResolver(AuthRegisterSchema),
@@ -26,8 +28,19 @@ export const AuthRegisterForm = () => {
 
   const router = useRouter();
 
-  const { mutateAsync: register, isError: isRegisterError } = AuthService().register;
-  const { mutateAsync: login, isError: isLoginError } = AuthService().login;
+  const {
+    mutateAsync: register,
+    isError: isRegisterError,
+    isPending: isPendingRegister,
+  } = AuthService().register;
+  const {
+    mutateAsync: login,
+    isError: isLoginError,
+    isPending: isPendingLogin,
+    isSuccess,
+  } = AuthService().login;
+
+  const isLoading = isPendingRegister || isPendingLogin || isSuccess;
 
   useEffect(() => {
     if (isRegisterError || isLoginError) {
@@ -52,8 +65,8 @@ export const AuthRegisterForm = () => {
       {registerFields.map((field) => (
         <AuthInputField key={field.path} control={control} data={field} />
       ))}
-      <Button className="w-full" type="submit">
-        Зареєструватись
+      <Button disabled={isLoading} className="w-full" type="submit">
+        {isLoading ? <Loader className="animate-spin" /> : "Зареєструватись"}
       </Button>
       <Button variant="ghost" className="w-full text-zinc-500" type="button">
         <Link href="/auth/login">В мене вже є аккаунт</Link>
