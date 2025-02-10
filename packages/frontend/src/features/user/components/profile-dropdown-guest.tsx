@@ -4,9 +4,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
-import { Avatar } from "antd";
-import { LogIn } from "lucide-react";
+
 import Link from "next/link";
+
+import { Avatar } from "antd";
+
+import { LogIn } from "lucide-react";
 
 export const ProfileDropdownGuest = () => {
   return (
