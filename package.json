@@ -1,21 +1,21 @@
 {
-	"name": "coffee-shop",
-	"version": "1.0.0",
-	"author": "kokush <witalik.logoyda@gmail.com>",
-	"repository": "git@github.com:kokush-v/coffee-shop",
-	"devDependencies": {
-		"wait-on": "^8.0.2"
-	},
-	"license": "MIT",
-	"private": "true",
-	"scripts": {
-		"dev:both": "bash -c 'yarn workspace frontend dev & cd packages/backend && pipenv run python manage.py runserver & wait'",
-		"dev:backend": "cd packages/backend && pipenv shell python manage.py runserver",
-		"dev:frontend": "yarn workspace frontend dev",
-		"build:frontend": "yarn workspace frontend build",
-		"production:frontend": "yarn workspace frontend start"
-	},
-	"workspaces": [
-		"packages/*"
-	]
+  "name": "coffee-shop",
+  "version": "1.0.0",
+  "author": "kokush <witalik.logoyda@gmail.com>",
+  "repository": "git@github.com:kokush-v/coffee-shop",
+  "devDependencies": {
+    "wait-on": "^8.0.2"
+  },
+  "license": "MIT",
+  "private": "true",
+  "scripts": {
+    "dev:both": "bash -c 'yarn workspace frontend dev & cd packages/backend && pipenv run python manage.py runserver & wait'",
+    "dev:backend": "cd packages/backend && pipenv shell python manage.py runserver 0.0.0.0:8000",
+    "dev:frontend": "yarn workspace frontend dev",
+    "build:frontend": "yarn workspace frontend build",
+    "production:frontend": "yarn workspace frontend start"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
