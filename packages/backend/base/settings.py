@@ -32,6 +32,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:3000'
+]
 
 # Application definition
 
@@ -71,9 +74,6 @@ SIMPLE_JWT = {
     'TOKEN_OBTAIN_SERIALIZER': 'api.serializers.CustomTokenObtainPairSerializer',
 }
 
-CORS_ALLOWED_ORIGINS = [
-    '127.0.0.1:3000'
-]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
