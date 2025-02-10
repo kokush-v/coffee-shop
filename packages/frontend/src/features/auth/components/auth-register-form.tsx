@@ -14,13 +14,34 @@ import Link from "next/link";
 
 import { registerFields } from "@/src/features/auth/const/register-fields";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+import AuthService from "@/src/features/auth/api/auth-service";
+
 export const AuthRegisterForm = () => {
-  const { control, handleSubmit } = useForm<AuthRegisterFields>({
+  const { control, handleSubmit, setError } = useForm<AuthRegisterFields>({
     resolver: zodResolver(AuthRegisterSchema),
   });
 
-  const onSubmit = (form: AuthRegisterFields) => {
-    console.log(form);
+  const router = useRouter();
+
+  const { mutateAsync: register, isError: isRegisterError } = AuthService().register;
+  const { mutateAsync: login, isError: isLoginError } = AuthService().login;
+
+  useEffect(() => {
+    if (isRegisterError || isLoginError) {
+      setError("root", {
+        message: "Щось пішло не так",
+      });
+    }
+  }, [isRegisterError, isLoginError, setError]);
+
+  const onSubmit = async (form: AuthRegisterFields) => {
+    await register(form);
+    await login(form);
+
+    router.push("/");
   };
 
   return (
