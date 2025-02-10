@@ -11,7 +11,7 @@ export const AuthRegisterSchema = z
       .string()
       .min(8, "Пароль повинен містити щонайменше 8 символів")
       .max(255, "Пароль занадто довгий"),
-    name: z.string(),
+    username: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Паролі не співпадають",
