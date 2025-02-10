@@ -29,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interSans.className} antialiased coffee-beans-bg`}>
+        <div className="absolute w-full h-screen bg-white z-[999] animate-overlay-out" />
         <QueryProvider>
           <ReduxProvider>
             <AntdRegistry>{children}</AntdRegistry>
