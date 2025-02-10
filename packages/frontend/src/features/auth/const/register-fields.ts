@@ -10,7 +10,7 @@ export const registerFields: AuthField[] = [
   },
   {
     placeholder: "Ім'я",
-    path: "name",
+    path: "username",
     label: "Як нам до вас звертатись?",
     autoComplete: "name",
   },

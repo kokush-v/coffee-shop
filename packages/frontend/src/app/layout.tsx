@@ -9,6 +9,7 @@ import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
 import { ReduxProvider } from "@/src/providers/redux-provider";
+import { QueryProvider } from "@/src/providers/query-client-provider";
 
 const interSans = Inter({
   variable: "--font-inter-sans",
@@ -28,9 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interSans.className} antialiased coffee-beans-bg`}>
-        <ReduxProvider>
-          <AntdRegistry>{children}</AntdRegistry>
-        </ReduxProvider>
+        <QueryProvider>
+          <ReduxProvider>
+            <AntdRegistry>{children}</AntdRegistry>
+          </ReduxProvider>
+        </QueryProvider>
       </body>
     </html>
   );

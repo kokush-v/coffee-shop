@@ -14,13 +14,36 @@ import Link from "next/link";
 
 import { loginFields } from "@/src/features/auth/const/login-fields";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import AuthService from "@/src/features/auth/api/auth-service";
+
 export const AuthLoginForm = () => {
-  const { control, handleSubmit } = useForm<AuthLoginFields>({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<AuthLoginFields>({
     resolver: zodResolver(AuthLoginSchema),
   });
 
-  const onSubmit = (form: AuthLoginFields) => {
-    console.log(form);
+  const router = useRouter();
+
+  const { mutateAsync, isError } = AuthService().login;
+
+  useEffect(() => {
+    if (isError) {
+      setError("root", {
+        message: "Щось пішло не так",
+      });
+    }
+  }, [isError, setError]);
+
+  const onSubmit = async (form: AuthLoginFields) => {
+    await mutateAsync(form);
+
+    router.push("/");
   };
 
   return (
@@ -31,6 +54,9 @@ export const AuthLoginForm = () => {
       <Button className="w-full" type="submit">
         Увійти
       </Button>
+      {errors.root && (
+        <span className="text-xs text-red-400 font-medium">{errors.root.message}</span>
+      )}
       <Button variant="ghost" className="w-full text-zinc-500" type="button">
         <Link href="/auth/register">В мене немає аккаунту</Link>
       </Button>
