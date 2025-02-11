@@ -1,4 +1,4 @@
-import { ProfileDropdownGuest } from "@/src/features/header/components/profile-dropdown-guest";
+import { Profile } from "@/src/features/user/ui/header-profile";
 
 import { CartTrigger } from "@/src/features/cart/components/cart-trigger";
 
@@ -11,7 +11,7 @@ export const Header = () => {
       </div>
       <div className="flex flex-row items-center gap-3">
         <CartTrigger />
-        <ProfileDropdownGuest />
+        <Profile />
       </div>
     </header>
   );
