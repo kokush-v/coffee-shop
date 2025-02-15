@@ -13,5 +13,15 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data # Монтируем данные для их сохранения
 
+  redis:
+    image: redis:7
+    container_name: coffee-shop-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis_data:/data
+    command: ["redis-server", "--appendonly yes"]      
+
 volumes:
   postgres_data:
+  redis_data:
