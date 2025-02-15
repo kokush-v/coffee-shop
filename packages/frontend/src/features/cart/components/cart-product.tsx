@@ -58,7 +58,13 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
   return (
     <CartProductContext.Provider value={item}>
       <div className="flex items-center gap-4">
-        <Image src={item.product.image_src} alt={item.product.title} width={96} height={96} className="rounded-lg shrink-0 w-24 h-24 object-cover" />
+        <Image
+          src={item.product.image_src}
+          alt={item.product.title}
+          width={128}
+          height={128}
+          className="rounded-lg shrink-0 w-24 h-24 object-cover"
+        />
         <div className="flex flex-col gap-0.5">
           <Typography variant="h4">{item.product.title}</Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
