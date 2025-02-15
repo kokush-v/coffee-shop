@@ -1,5 +1,5 @@
 export type User = {
   id: number;
   username: string;
-  isStaff: boolean;
+  is_staff: boolean;
 };
