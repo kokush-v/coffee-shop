@@ -1,11 +1,7 @@
-import email
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from . import models
-
-
-
 
 
 @admin.register(models.ShopUser)
@@ -28,3 +24,4 @@ class MyUserAdmin(UserAdmin):
 
 
 admin.site.register(models.Product)
+admin.site.register(models.Order)

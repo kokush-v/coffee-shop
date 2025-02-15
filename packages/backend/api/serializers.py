@@ -1,13 +1,7 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from shop.models import Product, ShopUser
+from shop.models import ShopUser
 from django.forms.models import model_to_dict
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = '__all__'
 
 
 class RegisterShopUserSerializer(serializers.ModelSerializer):
