@@ -8,22 +8,26 @@ import { ProfileManagementSection } from "@/src/features/user/components/profile
 import { ChevronRight } from "lucide-react";
 import { Typography } from "@/src/components/ui/typography";
 
+import Link from "next/link";
+
 export const Profile = () => {
   const { data } = useProfileData();
 
   if (!data) return null;
 
   return (
-    <main className="layout-spacing-rule py-4 space-y-2">
+    <main className="space-y-2">
       <Typography variant="h2" className="text-zinc-700">
         Привіт, {data.username}
       </Typography>
-      <ProfileButton>
-        <span>Мої замовлення</span>
-        <span className="flex items-center gap-1 text-sm text-zinc-600">
-          0 <ChevronRight />
-        </span>
-      </ProfileButton>
+      <Link href="/my/orders">
+        <ProfileButton>
+          <span>Мої замовлення</span>
+          <span className="flex items-center gap-1 text-sm text-zinc-600">
+            0 <ChevronRight />
+          </span>
+        </ProfileButton>
+      </Link>
       <ProfileManagementSection />
     </main>
   );

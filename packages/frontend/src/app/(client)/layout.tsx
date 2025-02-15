@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { AnimatePresence } from "framer-motion";
+
 import { Header } from "@/src/features/header/ui/header";
 import { Footer } from "@/src/features/footer/ui/footer";
 
@@ -16,7 +18,9 @@ export default function Layout({
   return (
     <main className="bg-white max-w-6xl mx-auto min-h-screen flex flex-col">
       <Header />
-      <section className="flex-1">{children}</section>
+      <main className="flex-1">
+        <AnimatePresence mode="wait">{children}</AnimatePresence>
+      </main>
       <Footer />
     </main>
   );
