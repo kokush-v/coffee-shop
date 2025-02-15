@@ -22,7 +22,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         user_dict = model_to_dict(
-            self.user, fields=['id', 'email', 'username'])
+            self.user, fields=['id', 'email', 'username', 'is_staff'])
 
         data['user'] = user_dict
         return {'token': data['access'], 'user': user_dict}

@@ -37,6 +37,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class GetUserView(generics.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         user = model_to_dict(
-            request.user, fields=['id', 'email', 'username'])
+            request.user, fields=['id', 'email', 'username', 'is_staff'])
 
         return Response(user)
