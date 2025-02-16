@@ -17,7 +17,7 @@ export const Profile = () => {
 
   return (
     <main className="space-y-2">
-      <Typography variant="h2" className="text-zinc-700">
+      <Typography variant="h2" className="text-zinc-700 mb-2">
         Привіт, {data.username}
       </Typography>
       <Link href="/my/orders">

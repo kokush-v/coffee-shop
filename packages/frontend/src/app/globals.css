@@ -33,28 +33,8 @@ body {
   @apply flex-row flex gap-1.5 items-center text-sm font-medium text-zinc-700;
 }
 
-.animate-overlay-out {
-  animation: 1s overlay-out forwards;
-  animation-delay: 400ms;
-}
-
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
-}
-
-@keyframes overlay-out {
-  0% {
-    opacity: 1;
-    display: block;
-  }
-  95% {
-    opacity: 0;
-    display: block;
-  }
-  100% {
-    opacity: 0;
-    display: none;
-  }
 }
 
 @layer base {
