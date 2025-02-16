@@ -14,10 +14,6 @@ export const Orders = () => {
       </Typography>
       <main className="space-y-2">
         <OrdersItem items={cart.items} />
-        <OrdersItem items={cart.items} />
-        <OrdersItem items={cart.items} />
-        <OrdersItem items={cart.items} />
-        <OrdersItem items={cart.items} />
       </main>
     </div>
   );

@@ -12,15 +12,7 @@ class JWTAuthMiddleware:
         self.inner = inner
 
     async def __call__(self, scope, receive, send):
-        headers = dict(scope["headers"])
-        token = None
-
-
-        if b"authorization" in headers:
-            auth_header = headers[b"authorization"].decode("utf-8")
-            if auth_header.startswith("Bearer "):
-                token = auth_header.split("Bearer ")[1]
-
+        token = scope['query_string'].decode().split('=')[1]
 
         scope["user"] = await self.get_user_from_token(token)
         return await self.inner(scope, receive, send)

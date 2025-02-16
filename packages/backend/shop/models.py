@@ -9,7 +9,7 @@ class Product(models.Model):
     product_weight = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.title} - ${self.price}"
+        return f"{self.title} - {self.price} UAH"
 
 class OrderProducts(models.Model):
     order = models.ForeignKey('Order', on_delete=models.CASCADE)
