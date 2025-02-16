@@ -9,6 +9,10 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  if (request.nextUrl.pathname.startsWith("/my/orders/manage")) {
+    // TODO: check if user is_staff
+  }
+
   return NextResponse.next();
 }
 

@@ -15,6 +15,8 @@ export const useProfileData = () => {
     queryFn: async () => {
       if (!token) return null;
 
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
       const req = await api.get("/user", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -23,5 +25,6 @@ export const useProfileData = () => {
 
       return req.data;
     },
+    staleTime: 1000 * 60 * 60 * 5,
   });
 };

@@ -21,7 +21,7 @@ export const OrdersItemProduct = ({ item }: { item: CartItem }) => {
             {item.quantity} <span className="text-zinc-500">x</span> {item.product.title}
           </Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
-            <Weight size={14} /> {item.product.product_weight} г.
+            <Weight size={14} /> {Math.round(item.product.product_weight)} г.
           </Typography>
           <Typography className="line-clamp-1 text-xs font-medium text-zinc-400">
             {item.product.description}
