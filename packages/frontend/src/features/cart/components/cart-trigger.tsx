@@ -11,14 +11,12 @@ import { Typography } from "@/src/components/ui/typography";
 
 import { CartContent } from "@/src/features/cart/components/cart-content";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
+import { overallPrice } from "@/src/lib/utils";
 
 const PopoverTitle = () => {
   const items = useAppSelector((state) => state.cart.items);
 
-  const overallPrice: number = items.reduce(
-    (total, item) => total + item.product.price * item.quantity,
-    0
-  );
+  const price: number = overallPrice(items);
 
   return (
     <div className="flex flex-row justify-between items-center">
@@ -26,20 +24,20 @@ const PopoverTitle = () => {
         Кошик
       </Typography>
       <Typography variant="p" className="font-semibold text-zinc-700">
-        Вартість: {overallPrice} грн.
+        Вартість: {price} грн.
       </Typography>
     </div>
   );
 };
 
 export const CartTrigger = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const {loadCartFromStorage} = cartMethods
+  const { loadCartFromStorage } = cartMethods;
 
   useEffect(() => {
-    dispatch(loadCartFromStorage())
-  }, [dispatch, loadCartFromStorage])
+    dispatch(loadCartFromStorage());
+  }, [dispatch, loadCartFromStorage]);
 
   return (
     <div>

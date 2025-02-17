@@ -11,10 +11,12 @@ import { CartProductNote } from "@/src/features/cart/components/cart-product-not
 import { CartProductContext } from "@/src/features/cart/context/cart-product-context";
 import Image from "next/image";
 
+const iconSize = 14;
+
 const CartProductActions = ({ item }: { item: CartItem }) => {
   const dispatch = useAppDispatch();
 
-  const { deleteItem, decreaseQuantity, increaseQuantity } = cartMethods;
+  const { decreaseQuantity, increaseQuantity } = cartMethods;
 
   const shouldDelete = item.quantity <= 1;
 
@@ -24,16 +26,12 @@ const CartProductActions = ({ item }: { item: CartItem }) => {
         className="w-10"
         size="sm"
         variant={shouldDelete ? "destructive" : "outline"}
-        onClick={() =>
-          shouldDelete
-            ? dispatch(deleteItem(item.product.id))
-            : dispatch(decreaseQuantity(item.product.id))
-        }
+        onClick={() => dispatch(decreaseQuantity(item.product.id))}
       >
         {shouldDelete ? (
-          <Trash2Icon size={14} className="flex-1 w-full" />
+          <Trash2Icon size={iconSize} className="flex-1 w-full" />
         ) : (
-          <Minus size={14} className="flex-1 w-full" />
+          <Minus size={iconSize} className="flex-1 w-full" />
         )}
       </Button>
       <Typography className="text-sm font-medium text-zinc-700 w-4 text-center">
@@ -45,7 +43,7 @@ const CartProductActions = ({ item }: { item: CartItem }) => {
         variant="outline"
         onClick={() => dispatch(increaseQuantity(item.product.id))}
       >
-        <Plus size={14} />
+        <Plus size={iconSize} />
       </Button>
       <CartProductNote />
     </>
@@ -68,7 +66,7 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
         <div className="flex flex-col gap-0.5">
           <Typography variant="h4">{item.product.title}</Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
-            <Weight size={14} /> {item.product.product_weight} г.
+            <Weight size={iconSize} /> {item.product.product_weight} г.
             {!!item.customerNote && (
               <span className="flex items-center gap-1">
                 • <Info size={12} strokeWidth={2.5} /> Присутня примітка

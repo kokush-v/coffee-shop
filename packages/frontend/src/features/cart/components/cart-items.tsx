@@ -1,12 +1,7 @@
 import { CartProduct } from "@/src/features/cart/components/cart-product";
+import { CartItem } from "@/src/features/cart/types/cart";
 
-import { useAppSelector } from "@/src/store";
-
-export const CartProducts = () => {
-  const { items } = useAppSelector((state) => state.cart);
-
-  if (items.length === 0) return null;
-
+export const CartProducts = ({ items }: { items: CartItem[] }) => {
   return (
     <div className="space-y-3">
       {items.map((item) => (

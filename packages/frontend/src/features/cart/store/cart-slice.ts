@@ -12,16 +12,17 @@ const initialState: CartState = {
   items: [],
 };
 
+type AddToCartPayload = Omit<CartItem, "customerNote">;
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     loadCartFromStorage: (state) => {
-      state.items = JSON.parse(localStorage.getItem("cart") ?? "[]")
+      state.items = JSON.parse(localStorage.getItem("cart") ?? "[]");
     },
-    addToCart: (state, action: PayloadAction<Omit<CartItem, "customerNote">>) => {
-      if (state.items.find((item) => item.product.id == action.payload.product.id))
-        return;
+    addToCart: (state, action: PayloadAction<AddToCartPayload>) => {
+      if (state.items.find((item) => item.product.id == action.payload.product.id)) return;
       state.items = [
         ...state.items,
         {
@@ -29,7 +30,6 @@ export const cartSlice = createSlice({
           customerNote: "",
         },
       ];
-      
     },
     increaseQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
@@ -41,23 +41,21 @@ export const cartSlice = createSlice({
     decreaseQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
 
-      state.items = state.items.map((item) =>
-        item.product.id == id ? { ...item, quantity: item.quantity - 1 } : item
-      );
-    },
-    deleteItem: (state, action: PayloadAction<number>) => {
-      const filtered = state.items.filter((item) => item.product.id !== action.payload);
+      const product = state.items.find((it) => it.product.id == id);
 
-      state.items = filtered;
+      if (!product) return;
+
+      if (product.quantity <= 1) {
+        state.items = state.items.filter((item) => item.product.id !== action.payload);
+      } else {
+        state.items = state.items.map((item) =>
+          item.product.id == id ? { ...item, quantity: item.quantity - 1 } : item
+        );
+      }
     },
-    editNoteForProduct: (
-      state,
-      action: PayloadAction<{ id: Product["id"]; note: string }>
-    ) => {
+    editNoteForProduct: (state, action: PayloadAction<{ id: Product["id"]; note: string }>) => {
       state.items = state.items.map((item) =>
-        item.product.id == action.payload.id
-          ? { ...item, customerNote: action.payload.note }
-          : item
+        item.product.id == action.payload.id ? { ...item, customerNote: action.payload.note } : item
       );
     },
   },

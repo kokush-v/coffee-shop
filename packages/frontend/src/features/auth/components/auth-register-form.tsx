@@ -3,10 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import {
-  AuthRegisterFields,
-  AuthRegisterSchema,
-} from "@/src/features/auth/types/auth-register-schema";
+import { AuthRegisterFields, AuthRegisterSchema, } from "@/src/features/auth/types/auth-register-schema";
 
 import { AuthInputField } from "@/src/features/auth/components/auth-input-field";
 import { Button } from "@/src/components/ui/button";
@@ -21,6 +18,8 @@ import AuthService from "@/src/features/auth/api/auth-service";
 
 import { Loader } from "lucide-react";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 export const AuthRegisterForm = () => {
   const { control, handleSubmit, setError } = useForm<AuthRegisterFields>({
     resolver: zodResolver(AuthRegisterSchema),
@@ -29,16 +28,18 @@ export const AuthRegisterForm = () => {
   const router = useRouter();
 
   const {
-    mutateAsync: register,
-    isError: isRegisterError,
-    isPending: isPendingRegister,
-  } = AuthService().register;
-  const {
-    mutateAsync: login,
-    isError: isLoginError,
-    isPending: isPendingLogin,
-    isSuccess,
-  } = AuthService().login;
+    login: {
+      mutateAsync: login,
+      isError: isLoginError,
+      isPending: isPendingLogin,
+      isSuccess,
+    },
+    register: {
+      mutateAsync: register,
+      isError: isRegisterError,
+      isPending: isPendingRegister,
+    }
+  } = new AuthService();
 
   const isLoading = isPendingRegister || isPendingLogin || isSuccess;
 
@@ -50,9 +51,14 @@ export const AuthRegisterForm = () => {
     }
   }, [isRegisterError, isLoginError, setError]);
 
+  const client = useQueryClient();
+
   const onSubmit = async (form: AuthRegisterFields) => {
-    await register(form);
-    await login(form);
+    await Promise.all([await register(form), await login(form)])
+
+    await client.resetQueries({
+      queryKey: ["user"],
+    });
 
     router.push("/");
   };
@@ -63,10 +69,10 @@ export const AuthRegisterForm = () => {
       className="space-y-2 flex-1 max-w-[310px] mx-2"
     >
       {registerFields.map((field) => (
-        <AuthInputField key={field.path} control={control} data={field} />
+        <AuthInputField key={field.path} control={control} data={field}/>
       ))}
       <Button disabled={isLoading} className="w-full" type="submit">
-        {isLoading ? <Loader className="animate-spin" /> : "Зареєструватись"}
+        {isLoading ? <Loader className="animate-spin"/> : "Зареєструватись"}
       </Button>
       <Button variant="ghost" className="w-full text-zinc-500" type="button">
         <Link href="/auth/login">В мене вже є аккаунт</Link>
