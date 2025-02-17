@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Modal } from "antd";
 import { Edit } from "lucide-react";
@@ -7,51 +7,38 @@ import { Typography } from "@/src/components/ui/typography";
 import { TextArea } from "@/src/components/ui/text-area";
 import { Button } from "@/src/components/ui/button";
 
-import { CartProductContext } from "@/src/features/cart/context/cart-product-context";
-
-import { useAppDispatch } from "@/src/store";
+import { useAppDispatch, useAppSelector } from "@/src/store";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
 
-export const CartProductNote = () => {
-  const item = useContext(CartProductContext);
-
+export const CartProductsNote = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
 
   const dispatch = useAppDispatch();
 
+  const orderNote = useAppSelector((state) => state.cart.orderNoteFromCustomer);
+
+  const { editOrderNote } = cartMethods;
+
   useEffect(() => {
-    if (item?.customerNote && !open) {
-      setText(item.customerNote);
+    if (orderNote && !open) {
+      setText(orderNote);
     }
-  }, [item, open]);
+  }, [orderNote, open]);
 
   const submitCallback = (text: string) => {
-    if (!item) return;
-
-    dispatch(
-      cartMethods.editNoteForProduct({
-        id: item.product.id,
-        note: text,
-      })
-    );
+    dispatch(editOrderNote(text));
     setOpen(false);
   };
 
-  if (!item) return;
-
   return (
     <>
-      <Button disabled={!item} onClick={() => setOpen(true)} size="sm" variant="outline">
+      <Button onClick={() => setOpen(true)} size="sm" variant="outline">
         <Edit />
       </Button>
       <Modal
         onCancel={() => setOpen(false)}
-        title={
-          <Typography className="text-zinc-600 line-clamp-1">
-            Примітка для <span className="text-black">{item.product.title}</span>
-          </Typography>
-        }
+        title={<Typography className="text-zinc-600">Залишити побажання до замовлення</Typography>}
         footer={() => (
           <section className="space-x-2">
             <Button
@@ -73,8 +60,8 @@ export const CartProductNote = () => {
         open={open}
         centered
       >
-        <Typography className="text-sm mb-2 text-zinc-600 font-medium">
-          Додайте примітку для того, хто буде збирати ваше замовлення.
+        <Typography className="text-sm mb-2 text-zinc-800 font-medium">
+          Додайте побажання до вашого замовлення.
         </Typography>
         <TextArea
           className="h-[160px]"

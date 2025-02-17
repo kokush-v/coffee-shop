@@ -1,4 +1,4 @@
-import { Info, Minus, Plus, Trash2Icon, Weight } from "lucide-react";
+import { Minus, Plus, Trash2Icon, Weight } from "lucide-react";
 import { Typography } from "@/src/components/ui/typography";
 import { Button } from "@/src/components/ui/button";
 
@@ -7,7 +7,6 @@ import { CartItem } from "@/src/features/cart/types/cart";
 import { useAppDispatch } from "@/src/store";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
 
-import { CartProductNote } from "@/src/features/cart/components/cart-product-note";
 import { CartProductContext } from "@/src/features/cart/context/cart-product-context";
 import Image from "next/image";
 
@@ -45,7 +44,6 @@ const CartProductActions = ({ item }: { item: CartItem }) => {
       >
         <Plus size={iconSize} />
       </Button>
-      <CartProductNote />
     </>
   );
 };
@@ -65,13 +63,8 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
         />
         <div className="flex flex-col gap-0.5">
           <Typography variant="h4">{item.product.title}</Typography>
-          <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
+          <Typography className="text-xs text-zinc-500 font-semibold flex items-center gap-1">
             <Weight size={iconSize} /> {item.product.product_weight} г.
-            {!!item.customerNote && (
-              <span className="flex items-center gap-1">
-                • <Info size={12} strokeWidth={2.5} /> Присутня примітка
-              </span>
-            )}
           </Typography>
           <div className="flex items-center gap-2 mt-1">
             <CartProductActions item={item} />
