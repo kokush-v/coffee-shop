@@ -42,7 +42,6 @@ export const AdminOrderComponent = ({ order }: AdminOrderProps) => {
               item={{
                 product: product.product,
                 quantity: product.quantity,
-                customerNote: "",
               }}
             />
           ))}
