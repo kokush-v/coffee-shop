@@ -8,10 +8,11 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 
 import { Avatar } from "antd";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
+import Link from "next/link";
 
 export const ProfileDropdownLoggedIn = () => {
   const { data } = useProfileData();
@@ -25,6 +26,12 @@ export const ProfileDropdownLoggedIn = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Привіт, {data?.username}</DropdownMenuLabel>
+        <DropdownMenuItem asChild>
+          <Link href="/my">
+            <User />
+            Профіль
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {

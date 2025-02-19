@@ -7,7 +7,7 @@ const localStorageMiddleware: Middleware =
   (store: { getState: () => { cart: CartState } }) => (next) => (action) => {
     const result = next(action);
 
-    localStorage.setItem("cart", JSON.stringify(store.getState().cart.items));
+    localStorage.setItem("cart", JSON.stringify(store.getState().cart));
 
     return result;
   };
@@ -16,8 +16,7 @@ export const store = configureStore({
   reducer: {
     cart: cartSlice,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(localStorageMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

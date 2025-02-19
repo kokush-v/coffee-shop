@@ -33,7 +33,7 @@ export const AuthLoginForm = () => {
 
   const router = useRouter();
 
-  const { mutateAsync, isError, isPending, isSuccess } = AuthService().login;
+  const { login: { mutateAsync, isError, isPending, isSuccess } } = new AuthService();
 
   useEffect(() => {
     if (isError) {
