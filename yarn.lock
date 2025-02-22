@@ -2043,7 +2043,7 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-"frontend@file:/home/kokush/Documents/type-script/coffee-shop/packages/frontend":
+"frontend@file:/home/kokush/Documents/python/coffee-shop/packages/frontend":
   version "0.1.0"
   resolved "file:packages/frontend"
   dependencies:
