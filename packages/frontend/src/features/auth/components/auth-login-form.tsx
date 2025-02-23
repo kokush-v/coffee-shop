@@ -16,7 +16,10 @@ import { loginFields } from "@/src/features/auth/const/login-fields";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import AuthService from "@/src/features/auth/api/auth-service";
+
+import { Loader } from "lucide-react";
 
 export const AuthLoginForm = () => {
   const {
@@ -30,7 +33,7 @@ export const AuthLoginForm = () => {
 
   const router = useRouter();
 
-  const { mutateAsync, isError } = AuthService().login;
+  const { login: { mutateAsync, isError, isPending, isSuccess } } = new AuthService();
 
   useEffect(() => {
     if (isError) {
@@ -51,8 +54,8 @@ export const AuthLoginForm = () => {
       {loginFields.map((field) => (
         <AuthInputField key={field.path} control={control} data={field} />
       ))}
-      <Button className="w-full" type="submit">
-        Увійти
+      <Button disabled={isPending || isSuccess} className="w-full" type="submit">
+        {isPending || isSuccess ? <Loader className="animate-spin" /> : "Увійти"}
       </Button>
       {errors.root && (
         <span className="text-xs text-red-400 font-medium">{errors.root.message}</span>

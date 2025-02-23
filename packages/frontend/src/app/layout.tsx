@@ -11,6 +11,8 @@ import type { Metadata } from "next";
 import { ReduxProvider } from "@/src/providers/redux-provider";
 import { QueryProvider } from "@/src/providers/query-client-provider";
 
+import { cn } from "@/src/lib/utils";
+
 const interSans = Inter({
   variable: "--font-inter-sans",
   subsets: ["latin", "cyrillic"],
@@ -28,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${interSans.className} antialiased coffee-beans-bg`}>
+      <body className={cn("antialiased coffee-beans-bg", interSans.className)}>
         <QueryProvider>
           <ReduxProvider>
             <AntdRegistry>{children}</AntdRegistry>

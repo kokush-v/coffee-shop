@@ -6,27 +6,24 @@ import { AuthRegisterFields } from "@/src/features/auth/types/auth-register-sche
 
 import { AuthLoginResponse } from "@/src/features/auth/types/auth-response";
 
-const routes = {
-  login: "/login/",
-  register: "/register/",
-};
-
-export const AuthService = () => {
-  const login = useMutation({
+class AuthService {
+  private routes = {
+    login: "/login/",
+    register: "/register/",
+  };
+  public login = useMutation({
     mutationKey: ["login"],
     onSuccess: (response: AuthLoginResponse) => {
       document.cookie = `access-token=${response.data.token}`;
     },
-    mutationFn: async (form: AuthLoginFields) => api.post(routes.login, { ...form }),
+    mutationFn: async (form: AuthLoginFields) => api.post(this.routes.login, { ...form }),
   });
 
-  const register = useMutation({
+  public register = useMutation({
     mutationKey: ["register"],
     mutationFn: async (form: AuthRegisterFields) =>
-      api.post(routes.register, { ...form }),
+      api.post(this.routes.register, { ...form }),
   });
-
-  return { login, register };
 };
 
 export default AuthService;
