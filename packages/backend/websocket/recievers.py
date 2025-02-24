@@ -9,7 +9,7 @@ from shop.models import Order
 
 @receiver(post_save, sender=Order)
 def order_status_changed(sender, instance, created, *args, **kwargs,):
-    order = OrderSerializer(instance).data  # Сериалізуємо замовлення
+    order = OrderSerializer(instance).data
     channel_layer = get_channel_layer()
 
     if created:
