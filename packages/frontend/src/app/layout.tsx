@@ -13,6 +13,10 @@ import { QueryProvider } from "@/src/providers/query-client-provider";
 
 import { cn } from "@/src/lib/utils";
 
+import { Toaster } from "@/src/components/ui/sonner";
+
+import { WebsocketMessagingProvider } from "@/src/providers/websocket-messaging-provider";
+
 const interSans = Inter({
   variable: "--font-inter-sans",
   subsets: ["latin", "cyrillic"],
@@ -33,9 +37,12 @@ export default function RootLayout({
       <body className={cn("antialiased coffee-beans-bg", interSans.className)}>
         <QueryProvider>
           <ReduxProvider>
-            <AntdRegistry>{children}</AntdRegistry>
+            <WebsocketMessagingProvider>
+              <AntdRegistry>{children}</AntdRegistry>
+            </WebsocketMessagingProvider>
           </ReduxProvider>
         </QueryProvider>
+        <Toaster theme="light" richColors />
       </body>
     </html>
   );

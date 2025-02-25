@@ -6,6 +6,7 @@ import { getCookie } from "@/src/lib/cookie";
 import { api } from "@/src/config/api";
 
 import { User } from "@/src/features/user/types/user";
+import websocketService from "@/src/lib/websocket-service";
 
 export const useProfileData = () => {
   const token = getCookie("access-token");
@@ -22,6 +23,10 @@ export const useProfileData = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (websocketService.websocket?.readyState == websocketService.websocket?.CLOSED) {
+        websocketService.connect();
+      }
 
       return req.data;
     },

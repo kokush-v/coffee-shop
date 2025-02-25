@@ -1,59 +1,43 @@
 "use client";
 
-import { useEffect } from "react";
-
-import { Popover } from "antd";
-
-import { useAppDispatch, useAppSelector } from "@/src/store";
-
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/src/components/ui/sheet";
 import { Button } from "@/src/components/ui/button";
-import { Typography } from "@/src/components/ui/typography";
+import { ShoppingCart } from "lucide-react";
+
+import { useEffect, useState } from "react";
+
+import { useAppDispatch } from "@/src/store";
 
 import { CartContent } from "@/src/features/cart/components/cart-content";
-import { CartProductsNote } from "@/src/features/cart/components/cart-products-note";
+import { PopoverTitle } from "@/src/features/cart/components/cart-title";
 
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
-import { overallPrice } from "@/src/lib/utils";
-
-const PopoverTitle = () => {
-  const items = useAppSelector((state) => state.cart.items);
-
-  const price: number = overallPrice(items);
-
-  return (
-    <div className="flex flex-row justify-between items-center">
-      <Typography variant="h2" className="text-lg font-semibold">
-        Кошик
-      </Typography>
-      <div className="flex flex-row items-center gap-1.5">
-        <Typography variant="p" className="font-semibold text-zinc-700">
-          Вартість: {price} грн.
-        </Typography>
-        <CartProductsNote />
-      </div>
-    </div>
-  );
-};
 
 export const CartTrigger = () => {
   const dispatch = useAppDispatch();
 
   const { loadCartFromStorage } = cartMethods;
 
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     dispatch(loadCartFromStorage());
   }, [dispatch, loadCartFromStorage]);
 
   return (
-    <div>
-      <Popover
-        content={CartContent}
-        title={() => <PopoverTitle />}
-        placement="bottomRight"
-        trigger="click"
-      >
-        <Button variant="outline">Кошик</Button>
-      </Popover>
-    </div>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="sm">
+          <ShoppingCart />
+          Кошик
+        </Button>
+      </SheetTrigger>
+      <SheetContent withoutClose className="flex flex-col">
+        <SheetTitle>
+          <PopoverTitle />
+        </SheetTitle>
+        <CartContent />
+      </SheetContent>
+    </Sheet>
   );
 };

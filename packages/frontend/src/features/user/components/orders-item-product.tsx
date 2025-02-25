@@ -18,7 +18,8 @@ export const OrdersItemProduct = ({ item }: { item: CartItem }) => {
       <div className="flex items-center flex-1">
         <div className="flex flex-col gap-0.5">
           <Typography variant="h4">
-            {item.quantity} <span className="text-zinc-500">x</span> {item.product.title}
+            {item.product.title}{" "}
+            <span className="text-xs font-medium text-foreground/60">{item.quantity} шт.</span>
           </Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center text-nowrap gap-1">
             <Weight size={14} /> {Math.round(item.product.product_weight)} г.
