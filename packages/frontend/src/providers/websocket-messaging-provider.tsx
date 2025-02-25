@@ -15,6 +15,11 @@ import { toast } from "sonner";
 
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
 
+type QueryPayload = {
+  pageParam: number;
+  pages: AdminOrders[];
+};
+
 export const WebsocketMessagingProvider = ({ children }: { children?: React.ReactNode }) => {
   const client = useQueryClient();
 
@@ -25,9 +30,10 @@ export const WebsocketMessagingProvider = ({ children }: { children?: React.Reac
   useEffect(() => {
     if (!currentUser) return;
 
-    client.prefetchQuery({
+    client.prefetchInfiniteQuery({
       queryKey: ["orders"],
       queryFn: async () => (await api.get("/orders/")).data,
+      initialPageParam: 1,
     });
 
     websocketService.connect();
@@ -35,21 +41,39 @@ export const WebsocketMessagingProvider = ({ children }: { children?: React.Reac
     websocketService.event((data: { order: AdminOrderResult; sender: string }) => {
       if (!currentUser.is_staff) return;
 
-      client.setQueryData(["orders"], (prev: AdminOrders) => {
-        return {
-          count: prev.results.length + 1,
-          results: [data.order, ...prev.results],
-        };
-      });
+      client.setQueryData(["orders"], (prev: QueryPayload): QueryPayload => {
+        const isOrderInLatestList = prev.pages.some(
+          (page) => !!page.results.find((x) => x.id === data.order.id)
+        );
 
-      toast.success("Отримано замовлення", {
-        description: `Замовлення на ${data.order.products.length} позицій вартістю ${overallPrice(
-          data.order.products
-        )} грн.`,
-        action: {
-          label: "Переглянути",
-          onClick: () => router.push("/my/orders/manage"),
-        },
+        if (isOrderInLatestList) {
+          return {
+            ...prev,
+            pages: prev.pages.map((page) => ({
+              ...page,
+              results: page.results.map((x) => (x.id == data.order.id ? data.order : x)),
+            })),
+          };
+        }
+
+        toast.info("Отримано замовлення", {
+          description: `Замовлення на ${data.order.products.length} позицій вартістю ${overallPrice(
+            data.order.products
+          )} грн.`,
+          action: {
+            label: "Переглянути",
+            onClick: () => router.push("/my/orders/manage"),
+          },
+        });
+
+        return {
+          ...prev,
+          pages: prev.pages.map((page, index) =>
+            index == 0
+              ? { ...page, count: page.count + 1, results: [data.order, ...page.results] }
+              : page
+          ),
+        };
       });
     });
 

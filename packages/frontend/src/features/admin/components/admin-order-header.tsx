@@ -1,11 +1,14 @@
 import { AdminOrderNote } from "@/src/features/admin/components/admin-order-note";
+import {
+  OrderCancelButton,
+  OrderReadyButton,
+} from "@/src/features/admin/components/admin-order-actions";
 
-import { Check, Ellipsis, X } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
 
@@ -31,12 +34,8 @@ export const AdminOrderHeader = ({ order }: { order: AdminOrderResult }) => {
           <DropdownMenuContent>
             {order.status == "pending" && (
               <>
-                <DropdownMenuItem>
-                  <Check /> Замовлення готове
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-red-400 focus:text-red-400">
-                  <X /> Відмінити замовлення
-                </DropdownMenuItem>
+                <OrderReadyButton orderId={order.id} />
+                <OrderCancelButton orderId={order.id} />
               </>
             )}
           </DropdownMenuContent>

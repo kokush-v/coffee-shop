@@ -1,12 +1,18 @@
 import { Product } from "@/src/features/products/types/product";
 
 export type AdminOrders = {
-  id: number;
   count: number;
+  next: string | null;
   results: AdminOrderResult[];
 };
 
-type OrderStatus = "pending";
+export enum OrderStatusPayload {
+  PENDING = "pending",
+  READY = "ready",
+  CANCELLED = "canceled",
+}
+
+type OrderStatus = "pending" | "ready" | "canceled";
 
 export type AdminOrderResult = {
   id: number;
@@ -18,4 +24,9 @@ export type AdminOrderResult = {
     product: Product;
     quantity: number;
   }[];
+};
+
+export type OrderActionPayload = {
+  orderId: AdminOrderResult["id"];
+  status: OrderStatusPayload;
 };

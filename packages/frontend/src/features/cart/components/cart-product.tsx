@@ -62,7 +62,9 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
           className="rounded-lg shrink-0 w-24 h-24 object-cover"
         />
         <div className="flex flex-col gap-0.5 flex-1">
-          <Typography variant="h4">{item.product.title}</Typography>
+          <Typography variant="h4" className="max-sm:text-sm">
+            {item.product.title}
+          </Typography>
           <Typography className="text-xs text-zinc-500 font-semibold flex items-center gap-1">
             <Weight size={iconSize} /> {item.product.product_weight} г.
           </Typography>

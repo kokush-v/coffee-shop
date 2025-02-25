@@ -17,7 +17,7 @@ export const OrdersItemProduct = ({ item }: { item: CartItem }) => {
       />
       <div className="flex items-center flex-1">
         <div className="flex flex-col gap-0.5">
-          <Typography variant="h4">
+          <Typography variant="h4" className="max-sm:text-sm">
             {item.product.title}{" "}
             <span className="text-xs font-medium text-foreground/60">{item.quantity} шт.</span>
           </Typography>

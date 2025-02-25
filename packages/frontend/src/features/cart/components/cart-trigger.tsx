@@ -34,6 +34,7 @@ export const CartTrigger = () => {
       </SheetTrigger>
       <SheetContent withoutClose className="flex flex-col">
         <SheetTitle>
+          {/* <SheetClose /> */}
           <PopoverTitle />
         </SheetTitle>
         <CartContent />
