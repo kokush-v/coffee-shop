@@ -9,10 +9,11 @@
   "license": "MIT",
   "private": "true",
   "scripts": {
-    "dev:both": "bash -c 'yarn workspace frontend dev & cd packages/backend && pipenv run python manage.py runserver & wait'",
-    "dev:backend": "cd packages/backend && pipenv shell daphne -b 0.0.0.0 -p 8000 base.asgi:application && exit",
+    "dev:both": "bash -c 'yarn workspace frontend dev & yarn dev:backend & wait'",
+    "dev:backend": "cd packages/backend && pipenv shell daphne -b 127.0.0.1 -p 8000 base.asgi:application",
     "dev:frontend": "yarn workspace frontend dev",
     "build:frontend": "yarn workspace frontend build",
+    "build:backend": "cd packages/backend && pipenv run python manage.py collectstatic",
     "production:frontend": "yarn workspace frontend start"
   },
   "workspaces": [
