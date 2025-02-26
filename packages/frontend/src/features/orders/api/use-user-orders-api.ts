@@ -9,8 +9,12 @@ export const useUserOrdersAPI = () => {
   return useInfiniteQuery({
     queryKey: ["user-orders"],
     initialPageParam: 1,
-    queryFn: async ({ pageParam }): Promise<PaginatedResponse<Order[]>> => {
-      return (await api.get(`/orders/?page=${pageParam}&staff_orders=false`)).data;
+    queryFn: async ({ pageParam }) => {
+      const { data } = await api.get<PaginatedResponse<Order[]>>(
+        `/orders/?page=${pageParam}&staff_orders=false`
+      );
+
+      return data;
     },
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage?.next) {

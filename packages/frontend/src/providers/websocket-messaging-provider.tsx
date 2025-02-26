@@ -25,13 +25,21 @@ export const WebsocketMessagingProvider = ({ children }: { children?: React.Reac
 
     client.prefetchInfiniteQuery({
       queryKey: ["user-orders"],
-      queryFn: async () => (await api.get("/orders/?staff_orders=false")).data,
+      queryFn: async () => {
+        const { data } = await api.get("/orders/?staff_orders=false");
+
+        return data;
+      },
       initialPageParam: 1,
     });
 
     client.prefetchInfiniteQuery({
       queryKey: ["orders", "pending"],
-      queryFn: async () => (await api.get("/orders/?status=pending")).data,
+      queryFn: async () => {
+        const { data } = await api.get("/orders/?status=pending");
+
+        return data;
+      },
       initialPageParam: 1,
     });
 

@@ -48,8 +48,11 @@ export const CartOrderButton = ({ className }: Props) => {
 
   const { mutate } = useMutation({
     mutationKey: ["create-order"],
-    mutationFn: async (data: OrderPayload): Promise<Order> =>
-      (await api.post("/orders/", data)).data,
+    mutationFn: async (data: OrderPayload) => {
+      const { data: response } = await api.post<Order>("/orders/", data);
+
+      return response;
+    },
     onSuccess: (data) => {
       client.setQueryData(["user-orders"], (prev: QueryPayload): QueryPayload => {
         return {

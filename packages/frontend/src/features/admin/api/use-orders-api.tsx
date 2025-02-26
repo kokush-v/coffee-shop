@@ -12,8 +12,12 @@ export const useOrdersAPI = (
   return useInfiniteQuery({
     queryKey: ["orders", status],
     initialPageParam: 1,
-    queryFn: async ({ pageParam }): Promise<PaginatedResponse<Order[]>> => {
-      return (await api.get(`/orders/?page=${pageParam}&status=${status}`)).data;
+    queryFn: async ({ pageParam }) => {
+      const { data } = await api.get<PaginatedResponse<Order[]>>(
+        `/orders/?page=${pageParam}&status=${status}`
+      );
+
+      return data;
     },
     initialData:
       status == "pending"
