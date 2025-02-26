@@ -24,7 +24,7 @@ export const Admin = ({ initialData }: AdminProps) => {
   const { data, fetchNextPage, hasNextPage } = useOrdersAPI(initialData, tab);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-1">
       <Typography
         variant="h2"
         className="text-zinc-700 flex justify-between items-baseline max-sm:text-lg"
@@ -66,7 +66,9 @@ export const Admin = ({ initialData }: AdminProps) => {
           </Button>
         </>
       ) : (
-        <ActivityIndicator />
+        <div className="flex-1 grid place-items-center">
+          <ActivityIndicator />
+        </div>
       )}
     </div>
   );
