@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework.exceptions import ValidationError
 
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -22,7 +22,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    http_method_names = ['get', 'post']
+    http_method_names = ['get', 'post', 'put']
     
     def get_queryset(self):
         if self.request.user.is_staff:
@@ -30,6 +30,19 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         
         return Order.objects.filter(user=self.request.user).order_by("-created_at")
+    
+    def perform_update(self, serializer):
+        allowed_fields = {"products", "status", 'note'}
+        
+        if not self.request.user.is_staff:         
+            if serializer.validated_data.get("status") == "ready":
+                raise ValidationError({"status": "You can’t set status 'ready'."})
+               
+            for field in list(serializer.validated_data.keys()):
+                if field not in allowed_fields:
+                    serializer.validated_data.pop(field, None)
+        
+        serializer.save()
 
 
 class RegisterShopUserView(generics.CreateAPIView):

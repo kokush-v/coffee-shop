@@ -22,7 +22,7 @@ body {
 }
 
 .footer-contact {
-  @apply text-sm font-medium text-zinc-600;
+  @apply text-sm font-medium text-zinc-600 max-sm:text-xs;
 }
 
 .footer-heading {
@@ -30,7 +30,7 @@ body {
 }
 
 .footer-url {
-  @apply flex-row flex gap-1.5 items-center text-sm font-medium text-zinc-700;
+  @apply flex-row flex gap-1.5 items-center text-sm font-medium text-zinc-700 max-sm:text-xs;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
@@ -95,7 +95,7 @@ body {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;

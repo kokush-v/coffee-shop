@@ -1,11 +1,7 @@
 import { getCookie } from "@/src/lib/cookie";
 
-class AdminService {
+class WebsocketService {
   public websocket?: WebSocket;
-
-  constructor() {
-    this.websocket?.addEventListener("open", () => console.log("connected"));
-  }
 
   public connect() {
     const cookie = getCookie("access-token");
@@ -17,17 +13,19 @@ class AdminService {
         process.env.NEXT_PUBLIC_WEBSOCKET_URL + `/orders/?token=${cookie}`
       );
     }
-
-    this.websocket?.addEventListener("order_event", (event) => {
-      console.log(event);
-    });
   }
 
-  public close() {
-    this.websocket?.close();
+  public event<T>(fun: (data: T) => void) {
+    if (this.websocket) {
+      this.websocket.onmessage = (event) => {
+        fun(JSON.parse(event.data));
+      };
+    }
+  }
 
-    this.websocket?.removeEventListener("message", () => {});
+  public disconnect() {
+    this.websocket?.close();
   }
 }
 
-export default new AdminService();
+export default new WebsocketService();

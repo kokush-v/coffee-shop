@@ -33,7 +33,7 @@ export const CartProductsNote = () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} size="sm" variant="outline">
+      <Button onClick={() => setOpen(true)} variant="outline" className="text-primary/70">
         <Edit />
       </Button>
       <Modal

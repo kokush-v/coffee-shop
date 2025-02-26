@@ -3,10 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import {
-  AuthLoginFields,
-  AuthLoginSchema,
-} from "@/src/features/auth/types/auth-login-schema";
+import { AuthLoginFields, AuthLoginSchema } from "@/src/features/auth/types/auth-login-schema";
 
 import { AuthInputField } from "@/src/features/auth/components/auth-input-field";
 import { Button } from "@/src/components/ui/button";
@@ -20,6 +17,7 @@ import { useRouter } from "next/navigation";
 import AuthService from "@/src/features/auth/api/auth-service";
 
 import { Loader } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const AuthLoginForm = () => {
   const {
@@ -33,7 +31,11 @@ export const AuthLoginForm = () => {
 
   const router = useRouter();
 
-  const { login: { mutateAsync, isError, isPending, isSuccess } } = new AuthService();
+  const client = useQueryClient();
+
+  const {
+    login: { mutateAsync, isError, isPending, isSuccess },
+  } = new AuthService();
 
   useEffect(() => {
     if (isError) {
@@ -45,6 +47,10 @@ export const AuthLoginForm = () => {
 
   const onSubmit = async (form: AuthLoginFields) => {
     await mutateAsync(form);
+
+    client.removeQueries({
+      queryKey: ["user"],
+    });
 
     router.push("/");
   };

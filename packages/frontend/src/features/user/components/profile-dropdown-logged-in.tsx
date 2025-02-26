@@ -14,10 +14,17 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
 import Link from "next/link";
 
+import { api } from "@/src/config/api";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 export const ProfileDropdownLoggedIn = () => {
   const { data } = useProfileData();
 
   const client = useQueryClient();
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -36,9 +43,22 @@ export const ProfileDropdownLoggedIn = () => {
         <DropdownMenuItem
           onClick={() => {
             document.cookie = "access-token=";
+            api.defaults.headers["Authorization"] = null;
+
+            if (pathname.startsWith("/my")) {
+              router.push("/");
+            }
+
+            toast.info("Ви вийшли з аккаунту", {
+              description: "Ви не зможете зробити замовлення поки не увійдете знову.",
+            });
 
             setTimeout(() => {
               client.resetQueries({
+                queryKey: ["user"],
+              });
+
+              client.removeQueries({
                 queryKey: ["user"],
               });
             }, 200);

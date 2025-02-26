@@ -8,7 +8,6 @@ class ShopUserSerializer(serializers.ModelSerializer):
         model = ShopUser
         fields = ['id', 'email', 'username']
         
-
         
 # Serializers for Order and Product models
 class ProductSerializer(serializers.ModelSerializer):
@@ -55,6 +54,27 @@ class OrderSerializer(serializers.ModelSerializer):
 
         return order
     
+    def update(self, instance, validated_data):
+        products_data = self.initial_data.get("products", [])
+        
+        OrderProducts.objects.filter(order=instance).delete() 
+
+        total_price = 0
+        for product_data in products_data:
+            product = Product.objects.get(id=product_data["product_id"])
+            quantity = product_data["quantity"]
+            
+            OrderProducts.objects.create(order=instance, product=product, quantity=quantity)
+            total_price += product.price * quantity
+        
+        
+        instance.status = validated_data.get("status", instance.status)
+        instance.note = validated_data.get("note", instance.note)
+        instance.total_price = total_price
+        instance.save()
+
+        return instance
+
 
 # Additional serializer for OrderProducts model
 class OrderProductDetailSerializer(serializers.ModelSerializer):
