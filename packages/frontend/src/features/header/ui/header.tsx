@@ -1,6 +1,6 @@
 import { Profile } from "@/src/features/user/ui/header-profile";
 
-import { CartTrigger } from "@/src/features/cart/components/cart-trigger";
+import { CartTrigger } from "@/src/features/cart/components/cart-root";
 import Link from "next/link";
 
 export const Header = () => {
