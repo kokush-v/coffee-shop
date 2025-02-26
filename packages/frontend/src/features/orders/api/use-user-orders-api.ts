@@ -9,7 +9,7 @@ export const useUserOrdersAPI = () => {
     queryKey: ["user-orders"],
     initialPageParam: 1,
     queryFn: async ({ pageParam }): Promise<OrdersResponse> => {
-      return (await api.get(`/orders/?page=${pageParam}`)).data;
+      return (await api.get(`/orders/?page=${pageParam}&staff_orders=false`)).data;
     },
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage?.next) {

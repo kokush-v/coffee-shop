@@ -20,4 +20,4 @@ export type OrderProduct = {
   quantity: number;
 };
 
-type OrderStatus = "pending" | "ready" | "canceled";
+export type OrderStatus = "pending" | "ready" | "canceled";

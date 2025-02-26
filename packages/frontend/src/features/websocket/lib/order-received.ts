@@ -16,7 +16,7 @@ export const orderReceivedEvent = (
   client: QueryClient,
   data: { order: Order; sender: string }
 ) => {
-  client.setQueryData(["orders"], (prev: QueryPayload): QueryPayload => {
+  client.setQueryData(["orders", "pending"], (prev: QueryPayload): QueryPayload => {
     const isOrderInLatestList = prev.pages.some(
       (page) => !!page.results.find((x) => x.id === data.order.id)
     );
@@ -34,6 +34,7 @@ export const orderReceivedEvent = (
     }
 
     toast.info("Отримано замовлення", {
+      duration: Infinity,
       description: `Замовлення на ${data.order.products.length} позицій вартістю ${overallPrice(
         data.order.products
       )} грн.`,

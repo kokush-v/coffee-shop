@@ -42,7 +42,7 @@ export default function RootLayout({
             </WebsocketMessagingProvider>
           </ReduxProvider>
         </QueryProvider>
-        <Toaster theme="light" />
+        <Toaster theme="light" toastOptions={{ style: { pointerEvents: "auto" } }} />
       </body>
     </html>
   );

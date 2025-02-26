@@ -15,7 +15,7 @@ export default async function Page() {
   }
 
   const data = await api
-    .get("/orders/", {
+    .get("/orders/?status=pending&staff_orders=true", {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },

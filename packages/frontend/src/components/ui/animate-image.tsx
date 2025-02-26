@@ -14,7 +14,7 @@ type Props = ImageProps & {
 export const AnimateImage = ({ alt, className, ...props }: Props) => {
   const [isLoaded, setLoaded] = useState(false);
   return (
-    <div className="relative overflow-hidden">
+    <div className={cn("relative overflow-hidden", className)}>
       <Image
         onLoad={() => setLoaded(true)}
         className={cn("flex-1 bg-zinc-100 object-cover z-10", className)}

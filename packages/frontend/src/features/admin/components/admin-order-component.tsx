@@ -10,7 +10,7 @@ import { AdminOrderHeader } from "@/src/features/admin/components/admin-order-he
 import { Order } from "@/src/features/orders/types/orders";
 
 import { useOrdersAPI } from "@/src/features/admin/api/use-orders-api";
-import { OrderStatusPayload } from "@/src/features/admin/types/admin-orders";
+import { useEffect, useRef, useState } from "react";
 
 interface AdminOrderProps {
   order: Order;
@@ -20,19 +20,27 @@ export const AdminOrderComponent = ({ order }: AdminOrderProps) => {
   const orderDateString = new Date(order.created_at).toLocaleString();
 
   const { isFetching } = useOrdersAPI();
+  const [height, setHeight] = useState(0);
 
-  if (order.status != OrderStatusPayload.PENDING) return null;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      setHeight(ref.current?.clientHeight);
+    }
+  }, [ref.current?.clientHeight]);
 
   return (
     <motion.div
+      ref={ref}
       key={order.id}
       exit={{
         opacity: 0,
-        marginTop: -50,
+        marginTop: -height,
       }}
       initial={{
         opacity: 0,
-        marginTop: -50,
+        marginTop: -53,
       }}
       animate={{
         opacity: 1,
