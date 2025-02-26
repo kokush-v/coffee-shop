@@ -3,16 +3,9 @@ import { Typography } from "@/src/components/ui/typography";
 
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
 import Link from "next/link";
-// import AdminService from "@/src/features/admin/api/admin-service";
-
-// import { useEffect } from "react";
 
 export const ProfileManagementSection = () => {
   const { data } = useProfileData();
-
-  // useEffect(() => {
-  //   AdminService.connect();
-  // }, []);
 
   if (!data) return null;
 

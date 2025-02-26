@@ -56,6 +56,10 @@ export const cartSlice = createSlice({
     editOrderNote: (state, action: PayloadAction<string>) => {
       state.orderNoteFromCustomer = action.payload;
     },
+    clear: (state) => {
+      state.items = [];
+      state.orderNoteFromCustomer = "";
+    },
   },
 });
 

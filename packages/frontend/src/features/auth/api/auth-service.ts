@@ -14,16 +14,15 @@ class AuthService {
   public login = useMutation({
     mutationKey: ["login"],
     onSuccess: (response: AuthLoginResponse) => {
-      document.cookie = `access-token=${response.data.token}`;
+      document.cookie = `access-token=${response.data.token}; path=/`;
     },
     mutationFn: async (form: AuthLoginFields) => api.post(this.routes.login, { ...form }),
   });
 
   public register = useMutation({
     mutationKey: ["register"],
-    mutationFn: async (form: AuthRegisterFields) =>
-      api.post(this.routes.register, { ...form }),
+    mutationFn: async (form: AuthRegisterFields) => api.post(this.routes.register, { ...form }),
   });
-};
+}
 
 export default AuthService;
