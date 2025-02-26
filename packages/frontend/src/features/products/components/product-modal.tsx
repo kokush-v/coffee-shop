@@ -4,12 +4,12 @@ import { Modal } from "antd";
 import React, { useContext, useState } from "react";
 
 import { ProductModalFooter } from "@/src/features/products/components/product-modal-footer";
+import { AnimateImage } from "@/src/components/ui/animate-image";
 import { Typography } from "@/src/components/ui/typography";
 
 import { ProductContext } from "@/src/features/products/context/product-context";
 
 import { Weight } from "lucide-react";
-import Image from "next/image";
 
 export const ProductModal = ({ children }: { children: React.ReactNode }) => {
   const product = useContext(ProductContext);
@@ -28,7 +28,7 @@ export const ProductModal = ({ children }: { children: React.ReactNode }) => {
         open={open}
         closable={false}
       >
-        <Image
+        <AnimateImage
           width={400}
           height={400}
           alt={product.title}

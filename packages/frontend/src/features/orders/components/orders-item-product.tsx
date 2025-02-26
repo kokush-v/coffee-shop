@@ -1,14 +1,14 @@
+import { AnimateImage } from "@/src/components/ui/animate-image";
 import { Typography } from "@/src/components/ui/typography";
 
 import { Weight } from "lucide-react";
-import Image from "next/image";
 
 import { OrderProduct } from "@/src/features/orders/types/orders";
 
 export const OrdersItemProduct = ({ product }: { product: OrderProduct }) => {
   return (
     <div className="flex items-center gap-4">
-      <Image
+      <AnimateImage
         src={product.product.image_src}
         alt={product.product.title}
         width={128}

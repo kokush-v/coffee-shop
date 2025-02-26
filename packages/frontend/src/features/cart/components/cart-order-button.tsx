@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { CreditCard, LogIn } from "lucide-react";
+
 import { Button } from "@/src/components/ui/button";
 import { api } from "@/src/config/api";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
@@ -9,7 +12,6 @@ import { cn } from "@/src/lib/utils";
 
 import { useAppDispatch, useAppSelector } from "@/src/store";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -60,14 +62,18 @@ export const CartOrderButton = ({ className }: Props) => {
 
   if (!currentUser) {
     return (
-      <Button className="flex-1" asChild>
-        <Link href="/auth">Увійти, щоб замовити</Link>
-      </Button>
+      <Link href="/auth" className="flex-1">
+        <Button className="w-full">
+          <LogIn />
+          Увійти, щоб замовити
+        </Button>
+      </Link>
     );
   }
 
   return (
     <Button className={cn("select-none disabled:cursor-not-allowed", className)} onClick={checkout}>
+      <CreditCard />
       Зробити замовлення
     </Button>
   );

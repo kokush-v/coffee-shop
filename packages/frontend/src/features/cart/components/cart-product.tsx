@@ -1,4 +1,6 @@
 import { Minus, Plus, Trash2Icon, Weight } from "lucide-react";
+
+import { AnimateImage } from "@/src/components/ui/animate-image";
 import { Typography } from "@/src/components/ui/typography";
 import { Button } from "@/src/components/ui/button";
 
@@ -8,7 +10,6 @@ import { useAppDispatch } from "@/src/store";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
 
 import { CartProductContext } from "@/src/features/cart/context/cart-product-context";
-import Image from "next/image";
 
 const iconSize = 14;
 
@@ -54,7 +55,7 @@ export const CartProduct = ({ item }: { item: CartItem }) => {
   return (
     <CartProductContext.Provider value={item}>
       <div className="flex items-center gap-4">
-        <Image
+        <AnimateImage
           src={item.product.image_src}
           alt={item.product.title}
           width={128}
