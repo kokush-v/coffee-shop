@@ -11,17 +11,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/ta
 import { ActivityIndicator } from "@/src/components/ui/activity-indicator";
 import { AdminOrderComponent } from "@/src/features/admin/components/admin-order-component";
 
-import { AdminOrders } from "@/src/features/admin/types/admin-orders";
+import { OrdersResponse } from "@/src/features/orders/types/orders";
 import { useOrdersAPI } from "@/src/features/admin/api/use-orders-api";
 
 interface AdminProps {
-  initialData: AdminOrders;
+  initialData: OrdersResponse;
 }
 
 export const Admin = ({ initialData }: AdminProps) => {
   const { data, fetchNextPage, hasNextPage } = useOrdersAPI(initialData);
-
-  console.log(data);
 
   if (!data) {
     return <ActivityIndicator />;
@@ -34,7 +32,6 @@ export const Admin = ({ initialData }: AdminProps) => {
         className="text-zinc-700 flex justify-between items-baseline max-sm:text-lg"
       >
         Замовлення користувачів{" "}
-        {/* <span className="text-sm font-semibold text-zinc-500">{data.count} замовлень</span> */}
       </Typography>
       <Tabs defaultValue="pending" className="mt-2">
         <TabsList>
@@ -60,7 +57,7 @@ export const Admin = ({ initialData }: AdminProps) => {
             className="text-xs mt-2 mx-auto"
           >
             <RotateCcw />
-            {hasNextPage ? "Завантажити ще" : "Ви дойшли до кінця"}
+            {hasNextPage ? "Завантажити ще" : "Ви дійшли до кінця"}
           </Button>
         </TabsContent>
       </Tabs>

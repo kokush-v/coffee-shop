@@ -4,16 +4,12 @@ import { OrdersResponse } from "@/src/features/orders/types/orders";
 
 import { api } from "@/src/config/api";
 
-export const useOrdersAPI = (initialData?: OrdersResponse) => {
+export const useUserOrdersAPI = () => {
   return useInfiniteQuery({
-    queryKey: ["orders"],
+    queryKey: ["user-orders"],
     initialPageParam: 1,
     queryFn: async ({ pageParam }): Promise<OrdersResponse> => {
       return (await api.get(`/orders/?page=${pageParam}`)).data;
-    },
-    initialData: {
-      pageParams: [1],
-      pages: [initialData],
     },
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage?.next) {
@@ -22,6 +18,6 @@ export const useOrdersAPI = (initialData?: OrdersResponse) => {
 
       return undefined;
     },
-    staleTime: 1000 * 60 * 60 * 0.1,
+    staleTime: 1000 * 60 * 60 * 1,
   });
 };

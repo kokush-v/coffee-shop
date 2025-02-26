@@ -1,9 +1,8 @@
-import { Product } from "@/src/features/products/types/product";
+import { Order } from "@/src/features/orders/types/orders";
 
-export type AdminOrders = {
-  count: number;
-  next: string | null;
-  results: AdminOrderResult[];
+export type OrderActionPayload = {
+  orderId: Order["id"];
+  status: OrderStatusPayload;
 };
 
 export enum OrderStatusPayload {
@@ -11,22 +10,3 @@ export enum OrderStatusPayload {
   READY = "ready",
   CANCELLED = "canceled",
 }
-
-type OrderStatus = "pending" | "ready" | "canceled";
-
-export type AdminOrderResult = {
-  id: number;
-  status: OrderStatus;
-  created_at: string;
-  note: string;
-  total_price: number;
-  products: {
-    product: Product;
-    quantity: number;
-  }[];
-};
-
-export type OrderActionPayload = {
-  orderId: AdminOrderResult["id"];
-  status: OrderStatusPayload;
-};

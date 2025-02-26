@@ -14,9 +14,9 @@ import {
 
 import { OrderStatus } from "@/src/features/admin/const/order-status";
 
-import { AdminOrderResult } from "@/src/features/admin/types/admin-orders";
+import { Order } from "@/src/features/orders/types/orders";
 
-export const AdminOrderHeader = ({ order }: { order: AdminOrderResult }) => {
+export const AdminOrderHeader = ({ order }: { order: Order }) => {
   return (
     <div className="flex">
       <AdminOrderNote value={order.note} />

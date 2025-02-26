@@ -5,9 +5,10 @@ import { DropdownMenuItem } from "@/src/components/ui/dropdown-menu";
 
 import { useOrdersAction } from "@/src/features/admin/api/use-orders-action";
 
-import { AdminOrderResult, OrderStatusPayload } from "@/src/features/admin/types/admin-orders";
+import { Order } from "@/src/features/orders/types/orders";
+import { OrderStatusPayload } from "@/src/features/admin/types/admin-orders";
 
-export const OrderReadyButton = ({ orderId }: { orderId: AdminOrderResult["id"] }) => {
+export const OrderReadyButton = ({ orderId }: { orderId: Order["id"] }) => {
   const { mutateAsync } = useOrdersAction({ orderId, status: OrderStatusPayload.READY });
 
   const onClick = () =>
@@ -24,7 +25,7 @@ export const OrderReadyButton = ({ orderId }: { orderId: AdminOrderResult["id"] 
   );
 };
 
-export const OrderCancelButton = ({ orderId }: { orderId: AdminOrderResult["id"] }) => {
+export const OrderCancelButton = ({ orderId }: { orderId: Order["id"] }) => {
   const { mutateAsync } = useOrdersAction({ orderId, status: OrderStatusPayload.CANCELLED });
 
   const onClick = () =>

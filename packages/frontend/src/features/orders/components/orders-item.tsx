@@ -1,27 +1,15 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/src/components/ui/accordion";
 
 import { OrdersItemProduct } from "@/src/features/orders/components/orders-item-product";
-import { AdminOrderHeader } from "@/src/features/admin/components/admin-order-header";
 
 import { Order } from "@/src/features/orders/types/orders";
+import { overallPrice } from "@/src/lib/utils";
 
-import { useOrdersAPI } from "@/src/features/admin/api/use-orders-api";
-import { OrderStatusPayload } from "@/src/features/admin/types/admin-orders";
+import { motion } from "framer-motion";
 
-interface AdminOrderProps {
-  order: Order;
-}
-
-export const AdminOrderComponent = ({ order }: AdminOrderProps) => {
+export const OrdersItem = ({ order }: { order: Order }) => {
   const orderDateString = new Date(order.created_at).toLocaleString();
-
-  const { isFetching } = useOrdersAPI();
-
-  if (order.status != OrderStatusPayload.PENDING) return null;
+  const price: number = overallPrice(order.products);
 
   return (
     <motion.div
@@ -40,13 +28,16 @@ export const AdminOrderComponent = ({ order }: AdminOrderProps) => {
       }}
     >
       <AccordionItem value={order.id.toString()}>
-        <AccordionTrigger disabled={isFetching}>
+        <AccordionTrigger>
           <p className="flex items-baseline justify-between flex-1 pr-2">
             Замовлення #{order.id} <span className="text-xs text-zinc-400">{orderDateString}</span>
           </p>
         </AccordionTrigger>
         <AccordionContent className="space-y-2">
-          <AdminOrderHeader order={order} />
+          <p className="text-xs text-primary/70 font-medium">
+            Вартість всього замовлення:{" "}
+            <span className="font-semibold text-primary/90">{price} грн.</span>
+          </p>
           {order.products.map((product, index) => (
             <OrdersItemProduct key={index} product={product} />
           ))}

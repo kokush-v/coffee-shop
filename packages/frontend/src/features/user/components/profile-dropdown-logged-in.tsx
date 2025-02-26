@@ -15,11 +15,15 @@ import { useProfileData } from "@/src/features/user/api/use-profile-data";
 import Link from "next/link";
 
 import { api } from "@/src/config/api";
+import { usePathname, useRouter } from "next/navigation";
 
 export const ProfileDropdownLoggedIn = () => {
   const { data } = useProfileData();
 
   const client = useQueryClient();
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -39,6 +43,10 @@ export const ProfileDropdownLoggedIn = () => {
           onClick={() => {
             document.cookie = "access-token=";
             api.defaults.headers["Authorization"] = null;
+
+            if (pathname.startsWith("/my")) {
+              router.push("/");
+            }
 
             setTimeout(() => {
               client.resetQueries({
