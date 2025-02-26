@@ -14,7 +14,6 @@ channels = "*"
 channels-redis = "*"
 daphne = "*"
 whitenoise = "*"
-django-filter = "*"
 
 [dev-packages]
 
