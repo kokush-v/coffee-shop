@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.exceptions import ValidationError
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -19,31 +21,39 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     http_method_names = ['get', 'post', 'put']
-    
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['status', 'created_at']
+    ordering_fields = ['created_at', 'updated_at']
+
     def get_queryset(self):
-        if self.request.user.is_staff:
-            return Order.objects.all().order_by("-created_at")
+        queryset = Order.objects.all().order_by("-created_at")
+
+        status = self.request.query_params.get('status')
+        staff_orders = self.request.query_params.get('staff_orders', False)
         
-        
-        return Order.objects.filter(user=self.request.user).order_by("-created_at")
-    
+        if status:
+            queryset = queryset.filter(status=status)
+
+        if not self.request.user.is_staff or staff_orders:
+            queryset = queryset.filter(user=self.request.user)
+
+        return queryset
+
     def perform_update(self, serializer):
-        allowed_fields = {"products", "status", 'note'}
+        allowed_fields = {"status"}
         
         if not self.request.user.is_staff:         
             if serializer.validated_data.get("status") == "ready":
                 raise ValidationError({"status": "You can’t set status 'ready'."})
-               
+
             for field in list(serializer.validated_data.keys()):
                 if field not in allowed_fields:
                     serializer.validated_data.pop(field, None)
-        
-        serializer.save()
 
+        serializer.save()
 
 class RegisterShopUserView(generics.CreateAPIView):
     serializer_class = RegisterShopUserSerializer
