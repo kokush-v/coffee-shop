@@ -10,9 +10,9 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { useAppDispatch } from "@/src/store";
+import { useAppDispatch, useAppSelector } from "@/src/store";
 
 import { CartContent } from "@/src/features/cart/ui/cart-content";
 
@@ -23,17 +23,16 @@ import { CartFooter } from "@/src/features/cart/components/cart-footer";
 
 export const CartTrigger = () => {
   const dispatch = useAppDispatch();
+  const open = useAppSelector((state) => state.cart.isSheetOpen);
 
-  const { loadCartFromStorage } = cartMethods;
-
-  const [open, setOpen] = useState(false);
+  const { loadCartFromStorage, setSheetOpen } = cartMethods;
 
   useEffect(() => {
     dispatch(loadCartFromStorage());
   }, [dispatch, loadCartFromStorage]);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={(value) => dispatch(setSheetOpen(value))}>
       <SheetTrigger asChild>
         <Button variant="outline" size="sm">
           <ShoppingCart />

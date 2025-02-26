@@ -2,13 +2,14 @@ import { QueryClient } from "@tanstack/react-query";
 import { overallPrice } from "@/src/lib/utils";
 import { toast } from "sonner";
 
-import { Order, OrdersResponse } from "@/src/features/orders/types/orders";
+import { Order } from "@/src/features/orders/types/orders";
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { PaginatedResponse } from "@/src/types/paginated-api-response";
 
 type QueryPayload = {
   pageParam: number;
-  pages: OrdersResponse[];
+  pages: PaginatedResponse<Order[]>[];
 };
 
 export const orderReceivedEvent = (

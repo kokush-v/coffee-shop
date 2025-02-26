@@ -2,18 +2,23 @@
 
 import Link from "next/link";
 import { CreditCard, LogIn } from "lucide-react";
-
 import { Button } from "@/src/components/ui/button";
-import { api } from "@/src/config/api";
+
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
-import { Product } from "@/src/features/products/types/product";
+
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
+
+import { api } from "@/src/config/api";
 import { cn } from "@/src/lib/utils";
+import { toast } from "sonner";
 
 import { useAppDispatch, useAppSelector } from "@/src/store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+
+import { Order } from "@/src/features/orders/types/orders";
+import { PaginatedResponse } from "@/src/types/paginated-api-response";
+import { Product } from "@/src/features/products/types/product";
 
 interface OrderPayload {
   products: { product_id: Product["id"]; quantity: number }[];
@@ -24,20 +29,39 @@ interface Props {
   className?: string;
 }
 
+type QueryPayload = {
+  pageParam: number;
+  pages: PaginatedResponse<Order[]>[];
+};
+
 export const CartOrderButton = ({ className }: Props) => {
   const router = useRouter();
+
+  const client = useQueryClient();
 
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   const { data: currentUser } = useProfileData();
 
-  const { clear } = cartMethods;
+  const { clear, setSheetOpen } = cartMethods;
 
   const { mutate } = useMutation({
     mutationKey: ["create-order"],
-    mutationFn: async (data: OrderPayload) => await api.post("/orders/", data),
-    onSuccess: () => {
+    mutationFn: async (data: OrderPayload): Promise<Order> =>
+      (await api.post("/orders/", data)).data,
+    onSuccess: (data) => {
+      client.setQueryData(["user-orders"], (prev: QueryPayload): QueryPayload => {
+        return {
+          ...prev,
+          pages: prev.pages.map((page, index) =>
+            index == 0 ? { ...page, count: page.count + 1, results: [data, ...page.results] } : page
+          ),
+        };
+      });
+
+      dispatch(setSheetOpen(false));
+
       toast.success("Ваше замовлення було створено.", {
         action: {
           label: "Мої замовлення",

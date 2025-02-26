@@ -11,12 +11,14 @@ import { Tabs, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
 import { ActivityIndicator } from "@/src/components/ui/activity-indicator";
 import { AdminOrderComponent } from "@/src/features/admin/components/admin-order-component";
 
-import { OrdersResponse, OrderStatus } from "@/src/features/orders/types/orders";
+import { Order, OrderStatus } from "@/src/features/orders/types/orders";
+import { PaginatedResponse } from "@/src/types/paginated-api-response";
+
 import { useOrdersAPI } from "@/src/features/admin/api/use-orders-api";
 import { useState } from "react";
 
 interface AdminProps {
-  initialData: OrdersResponse;
+  initialData: PaginatedResponse<Order[]>;
 }
 
 export const Admin = ({ initialData }: AdminProps) => {

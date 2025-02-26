@@ -5,11 +5,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartState {
   items: CartItem[];
+  isSheetOpen: boolean;
   orderNoteFromCustomer: string;
 }
 
 const initialState: CartState = {
   items: [],
+  isSheetOpen: false,
   orderNoteFromCustomer: "",
 };
 
@@ -59,6 +61,9 @@ export const cartSlice = createSlice({
     clear: (state) => {
       state.items = [];
       state.orderNoteFromCustomer = "";
+    },
+    setSheetOpen: (state, action: PayloadAction<boolean>) => {
+      state.isSheetOpen = action.payload;
     },
   },
 });
