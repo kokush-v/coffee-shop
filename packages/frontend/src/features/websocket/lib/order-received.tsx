@@ -34,11 +34,26 @@ export const orderReceivedEvent = (
       };
     }
 
+    const productTitle = data.order.products[0].product.title;
+    const productsLen = data.order.products.reduce((prev, cur) => prev + cur.quantity, 0) - 1;
+    const orderPrice = `${overallPrice(data.order.products)} грн.`;
+
+    const description =
+      productsLen == 0 ? (
+        <p className="font-medium text-primary/60">
+          <span className="font-semibold text-primary/80">{productTitle}</span> вартістю{" "}
+          {orderPrice}
+        </p>
+      ) : (
+        <p className="font-medium text-primary/60">
+          <span className="font-semibold text-primary/80">{productTitle}</span> та ще {productsLen}{" "}
+          позиції вартістю {orderPrice}
+        </p>
+      );
+
     toast.info("Отримано замовлення", {
       duration: Infinity,
-      description: `Замовлення на ${data.order.products.length} позицій вартістю ${overallPrice(
-        data.order.products
-      )} грн.`,
+      description,
       action: {
         label: "Переглянути",
         onClick: () => router.push("/my/orders/manage"),

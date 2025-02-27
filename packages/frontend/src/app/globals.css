@@ -9,6 +9,14 @@ body {
   overscroll-behavior: none;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
 .coffee-beans-bg {
   background-image: url("/coffee-beans-bg.png");
   background-size: 337px 600px;
