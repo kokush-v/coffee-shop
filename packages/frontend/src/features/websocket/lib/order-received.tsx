@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { overallPrice } from "@/src/lib/utils";
+import { overallPrice, pluralization } from "@/src/lib/utils";
 import { toast } from "sonner";
 
 import { Order } from "@/src/features/orders/types/orders";
@@ -37,6 +37,7 @@ export const orderReceivedEvent = (
     const productTitle = data.order.products[0].product.title;
     const productsLen = data.order.products.reduce((prev, cur) => prev + cur.quantity, 0) - 1;
     const orderPrice = `${overallPrice(data.order.products)} грн.`;
+    const count = pluralization(productsLen, ["позиція", "позиції", "позицій"]);
 
     const description =
       productsLen == 0 ? (
@@ -46,8 +47,8 @@ export const orderReceivedEvent = (
         </p>
       ) : (
         <p className="font-medium text-primary/60">
-          <span className="font-semibold text-primary/80">{productTitle}</span> та ще {productsLen}{" "}
-          позиції вартістю {orderPrice}
+          <span className="font-semibold text-primary/80">{productTitle}</span> та ще {count}{" "}
+          вартістю {orderPrice}
         </p>
       );
 
