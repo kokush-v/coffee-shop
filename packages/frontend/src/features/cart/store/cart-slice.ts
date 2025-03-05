@@ -48,6 +48,7 @@ export const cartSlice = createSlice({
       if (!product) return;
 
       if (product.quantity <= 1) {
+        state.isSheetOpen = false;
         state.items = state.items.filter((item) => item.product.id !== action.payload);
       } else {
         state.items = state.items.map((item) =>
@@ -59,6 +60,7 @@ export const cartSlice = createSlice({
       state.orderNoteFromCustomer = action.payload;
     },
     clear: (state) => {
+      state.isSheetOpen = false;
       state.items = [];
       state.orderNoteFromCustomer = "";
     },

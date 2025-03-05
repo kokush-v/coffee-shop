@@ -6,6 +6,8 @@ import { Order } from "@/src/features/orders/types/orders";
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { PaginatedResponse } from "@/src/types/paginated-api-response";
+import { WebsocketOrder } from "@/src/features/websocket/type/websocket-order";
+import { User } from "@/src/features/user/types/user";
 
 type QueryPayload = {
   pageParam: number;
@@ -15,25 +17,12 @@ type QueryPayload = {
 export const orderReceivedEvent = (
   router: AppRouterInstance,
   client: QueryClient,
-  data: { order: Order; sender: string }
+  data: WebsocketOrder
 ) => {
+  const user = client.getQueryData<User>(["user"]);
+  if (data.sender != "Система") return;
+
   client.setQueryData(["orders", "pending"], (prev: QueryPayload): QueryPayload => {
-    const isOrderInLatestList = prev.pages.some(
-      (page) => !!page.results.find((x) => x.id === data.order.id)
-    );
-
-    // websocket is also sending message when order status has changed,
-    // should be in separate function
-    if (isOrderInLatestList) {
-      return {
-        ...prev,
-        pages: prev.pages.map((page) => ({
-          ...page,
-          results: page.results.map((x) => (x.id == data.order.id ? data.order : x)),
-        })),
-      };
-    }
-
     const productTitle = data.order.products[0].product.title;
     const productsLen = data.order.products.reduce((prev, cur) => prev + cur.quantity, 0) - 1;
     const orderPrice = `${overallPrice(data.order.products)} грн.`;
@@ -52,14 +41,16 @@ export const orderReceivedEvent = (
         </p>
       );
 
-    toast.info("Отримано замовлення", {
-      duration: Infinity,
-      description,
-      action: {
-        label: "Переглянути",
-        onClick: () => router.push("/my/orders/manage"),
-      },
-    });
+    if (data.order.user.username != user?.username) {
+      toast.info("Отримано замовлення", {
+        duration: Infinity,
+        description,
+        action: {
+          label: "Переглянути",
+          onClick: () => router.push("/my/orders/manage"),
+        },
+      });
+    }
 
     return {
       ...prev,

@@ -10,7 +10,7 @@ import { AdminOrderHeader } from "@/src/features/admin/components/admin-order-he
 import { Order } from "@/src/features/orders/types/orders";
 
 import { useOrdersAPI } from "@/src/features/admin/api/use-orders-api";
-import { useEffect, useRef, useState } from "react";
+import { useAppSelector } from "@/src/store";
 
 interface AdminOrderProps {
   order: Order;
@@ -19,38 +19,16 @@ interface AdminOrderProps {
 export const AdminOrderComponent = ({ order }: AdminOrderProps) => {
   const orderDateString = new Date(order.created_at).toLocaleString();
 
-  const { isFetching } = useOrdersAPI();
-  const [height, setHeight] = useState(0);
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      setHeight(ref.current?.clientHeight);
-    }
-  }, [ref.current?.clientHeight]);
+  const { tab } = useAppSelector((state) => state.admin);
+  const { isFetching } = useOrdersAPI(undefined, tab);
 
   return (
-    <motion.div
-      ref={ref}
-      key={order.id}
-      exit={{
-        opacity: 0,
-        marginTop: -height,
-      }}
-      initial={{
-        opacity: 0,
-        marginTop: -53,
-      }}
-      animate={{
-        opacity: 1,
-        marginTop: 0,
-      }}
-    >
+    <motion.div key={order.id}>
       <AccordionItem value={order.id.toString()}>
         <AccordionTrigger disabled={isFetching}>
           <p className="flex items-baseline justify-between flex-1 pr-2">
-            Замовлення #{order.id} <span className="text-xs text-zinc-400">{orderDateString}</span>
+            Замовлення #{order.id}
+            <span className="text-xs text-zinc-400">{orderDateString}</span>
           </p>
         </AccordionTrigger>
         <AccordionContent className="space-y-2">

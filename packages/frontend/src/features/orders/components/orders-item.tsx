@@ -12,21 +12,7 @@ export const OrdersItem = ({ order }: { order: Order }) => {
   const price: number = overallPrice(order.products);
 
   return (
-    <motion.div
-      key={order.id}
-      exit={{
-        opacity: 0,
-        marginTop: -50,
-      }}
-      initial={{
-        opacity: 0,
-        marginTop: -50,
-      }}
-      animate={{
-        opacity: 1,
-        marginTop: 0,
-      }}
-    >
+    <motion.div key={order.id}>
       <AccordionItem value={order.id.toString()}>
         <AccordionTrigger>
           <p className="flex items-baseline justify-between flex-1 pr-2">

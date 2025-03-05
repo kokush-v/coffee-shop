@@ -5,11 +5,7 @@ import { cartMethods } from "@/src/features/cart/store/cart-slice";
 import { useContext } from "react";
 import { ProductContext } from "@/src/features/products/context/product-context";
 
-export const ProductModalFooter = ({
-  setOpen,
-}: {
-  setOpen: (state: boolean) => void;
-}) => {
+export const ProductModalFooter = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
   const { addToCart } = cartMethods;
   const dispatch = useAppDispatch();
 
@@ -37,7 +33,7 @@ export const ProductModalFooter = ({
           );
         }}
       >
-        {!!cartItem ? "У кошику" : "Додати"}
+        {!!cartItem ? "У кошику" : `Додати в кошик за ${product.price}₴`}
       </Button>
     </>
   );
