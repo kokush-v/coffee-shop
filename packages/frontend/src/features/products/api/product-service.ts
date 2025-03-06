@@ -5,19 +5,13 @@ import { PaginatedResponse } from "@/src/types/paginated-api-response";
 
 class ProductsService {
   private routes = {
-    products: "/products",
+    products: (page: number) => `/products?page=${page}`,
   };
 
-  public async getProducts(): Promise<Product[]> {
-    const {
-      data: { results: products },
-    } = await api.get<PaginatedResponse<Product[]>>(this.routes.products);
+  public async getProducts(page: number = 1): Promise<PaginatedResponse<Product[]>> {
+    const { data } = await api.get<PaginatedResponse<Product[]>>(this.routes.products(page));
 
-    return products.map((product) => ({
-      ...product,
-      price: Math.round(product.price),
-      product_weight: Math.round(product.product_weight),
-    }));
+    return data;
   }
 }
 

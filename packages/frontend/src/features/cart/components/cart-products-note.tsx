@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { Modal } from "antd";
 import { Edit } from "lucide-react";
 
 import { Typography } from "@/src/components/ui/typography";
@@ -9,6 +8,13 @@ import { Button } from "@/src/components/ui/button";
 
 import { useAppDispatch, useAppSelector } from "@/src/store";
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from "@/src/components/ui/dialog";
 
 export const CartProductsNote = () => {
   const [open, setOpen] = useState(false);
@@ -33,14 +39,24 @@ export const CartProductsNote = () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="outline" className="text-primary/70">
-        <Edit />
-      </Button>
-      <Modal
-        onCancel={() => setOpen(false)}
-        title={<Typography className="text-zinc-600">Залишити побажання до замовлення</Typography>}
-        footer={() => (
-          <section className="space-x-2">
+      <Dialog>
+        <DialogTrigger>
+          <Button variant="outline" className="text-primary/70">
+            <Edit />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <Typography className="text-zinc-700 -mt-2 mb-6 font-semibold">
+              Залишити побажання до замовлення
+            </Typography>
+          </DialogHeader>
+          <TextArea
+            className="h-[160px]"
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+          />
+          <DialogFooter className="gap-2 mt-4">
             <Button
               onClick={() => {
                 setText("");
@@ -55,20 +71,9 @@ export const CartProductsNote = () => {
             <Button onClick={() => submitCallback(text)} key="submit" variant="outline">
               Додати
             </Button>
-          </section>
-        )}
-        open={open}
-        centered
-      >
-        <Typography className="text-sm mb-2 text-zinc-800 font-medium">
-          Додайте побажання до вашого замовлення.
-        </Typography>
-        <TextArea
-          className="h-[160px]"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-        />
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
