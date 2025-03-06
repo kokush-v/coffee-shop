@@ -25,7 +25,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         opacity: 0,
         x: 15,
       }}
-      className="flex-1 layout-spacing-rule py-4"
+      className="flex-1 layout-spacing-rule py-4 flex flex-col"
     >
       {children}
     </motion.main>

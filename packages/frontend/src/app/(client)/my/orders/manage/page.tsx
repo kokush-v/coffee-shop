@@ -5,6 +5,9 @@ import { Admin } from "@/src/features/admin/ui/admin";
 
 import { api } from "@/src/config/api";
 
+import { PaginatedResponse } from "@/src/types/paginated-api-response";
+import { Order } from "@/src/features/orders/types/orders";
+
 export default async function Page() {
   const cookie = await cookies();
 
@@ -14,13 +17,14 @@ export default async function Page() {
     return redirect("/");
   }
 
-  const data = await api
-    .get("/orders/", {
+  const { data } = await api.get<PaginatedResponse<Order[]>>(
+    "/orders/?status=pending&staff_orders=true",
+    {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
-    })
-    .then((response) => response.data);
+    }
+  );
 
   return <Admin initialData={data} />;
 }

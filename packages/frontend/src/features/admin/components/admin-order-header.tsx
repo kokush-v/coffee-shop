@@ -26,18 +26,14 @@ export const AdminOrderHeader = ({ order }: { order: Order }) => {
           <span className="text-zinc-700 font-bold">{OrderStatus[order.status]}</span>
         </p>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger disabled={order.status !== "pending"} asChild>
             <Button size="sm" variant="ghost">
               <Ellipsis />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {order.status == "pending" && (
-              <>
-                <OrderReadyButton orderId={order.id} />
-                <OrderCancelButton orderId={order.id} />
-              </>
-            )}
+            <OrderReadyButton orderId={order.id} />
+            <OrderCancelButton orderId={order.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

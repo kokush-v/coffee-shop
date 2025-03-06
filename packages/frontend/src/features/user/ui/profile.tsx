@@ -9,11 +9,19 @@ import { ChevronRight } from "lucide-react";
 import { Typography } from "@/src/components/ui/typography";
 
 import Link from "next/link";
+import { useUserOrdersAPI } from "@/src/features/orders/api/use-user-orders-api";
+import { ActivityIndicator } from "@/src/components/ui/activity-indicator";
 
 export const Profile = () => {
   const { data } = useProfileData();
+  const { data: orders } = useUserOrdersAPI();
 
-  if (!data) return null;
+  if (!data || !orders)
+    return (
+      <div className="flex flex-1 items-center justify-center">
+        <ActivityIndicator />
+      </div>
+    );
 
   return (
     <main className="space-y-2">
@@ -24,7 +32,7 @@ export const Profile = () => {
         <ProfileButton>
           <span>Мої замовлення</span>
           <span className="flex items-center gap-1 text-sm text-zinc-600">
-            0 <ChevronRight />
+            {orders.pages[0].count} <ChevronRight />
           </span>
         </ProfileButton>
       </Link>

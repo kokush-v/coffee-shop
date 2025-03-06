@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
 
-import { Avatar } from "antd";
 import { LogOut, User } from "lucide-react";
 
 import { useQueryClient } from "@tanstack/react-query";
@@ -29,7 +28,9 @@ export const ProfileDropdownLoggedIn = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar size={36} />
+        <div className="w-9 h-9 rounded-full bg-zinc-200 flex items-center justify-center font-semibold text-zinc-500 text-xs select-none">
+          {data?.username.split("").splice(0, 2).join("").toUpperCase()}
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Привіт, {data?.username}</DropdownMenuLabel>
@@ -42,7 +43,7 @@ export const ProfileDropdownLoggedIn = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            document.cookie = "access-token=";
+            document.cookie = "access-token=;path=/";
             api.defaults.headers["Authorization"] = null;
 
             if (pathname.startsWith("/my")) {

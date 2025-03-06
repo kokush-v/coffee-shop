@@ -1,20 +1,31 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { OrdersResponse } from "@/src/features/orders/types/orders";
+import { Order, OrderStatus } from "@/src/features/orders/types/orders";
 
 import { api } from "@/src/config/api";
+import { PaginatedResponse } from "@/src/types/paginated-api-response";
 
-export const useOrdersAPI = (initialData?: OrdersResponse) => {
+export const useOrdersAPI = (
+  initialData?: PaginatedResponse<Order[]>,
+  status: OrderStatus = "pending"
+) => {
   return useInfiniteQuery({
-    queryKey: ["orders"],
+    queryKey: ["orders", status],
     initialPageParam: 1,
-    queryFn: async ({ pageParam }): Promise<OrdersResponse> => {
-      return (await api.get(`/orders/?page=${pageParam}`)).data;
+    queryFn: async ({ pageParam }) => {
+      const { data } = await api.get<PaginatedResponse<Order[]>>(
+        `/orders/?page=${pageParam}&status=${status}`
+      );
+
+      return data;
     },
-    initialData: {
-      pageParams: [1],
-      pages: [initialData],
-    },
+    initialData:
+      status == "pending"
+        ? {
+            pageParams: [1],
+            pages: [initialData],
+          }
+        : undefined,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage?.next) {
         return allPages.length + 1;

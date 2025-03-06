@@ -1,4 +1,5 @@
 import { Product } from "@/src/features/products/types/product";
+import { User } from "@/src/features/user/types/user";
 
 export type OrdersResponse = {
   count: number;
@@ -13,6 +14,7 @@ export type Order = {
   note: string;
   total_price: number;
   products: OrderProduct[];
+  user: User;
 };
 
 export type OrderProduct = {
@@ -20,4 +22,4 @@ export type OrderProduct = {
   quantity: number;
 };
 
-type OrderStatus = "pending" | "ready" | "canceled";
+export type OrderStatus = "pending" | "ready" | "canceled";

@@ -14,7 +14,9 @@ export const useProfileData = () => {
   return useQuery<User>({
     queryKey: ["user"],
     queryFn: async () => {
-      if (!token) return null;
+      if (!token) {
+        throw "No cookie provided";
+      }
 
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 

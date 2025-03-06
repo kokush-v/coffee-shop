@@ -7,15 +7,13 @@ import {
 
 import Link from "next/link";
 
-import { Avatar } from "antd";
-
 import { LogIn } from "lucide-react";
 
 export const ProfileDropdownGuest = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar size={36} />
+        <div className="w-9 h-9 rounded-full bg-zinc-200 flex items-center justify-center font-semibold text-zinc-500"></div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild className="text-zinc-900">

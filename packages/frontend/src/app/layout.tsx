@@ -1,9 +1,5 @@
 import "./globals.css";
 
-// note: until antd doesn't fix compatibility for react 19 we should import this package
-import "@ant-design/v5-patch-for-react-19";
-
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Inter } from "next/font/google";
 
 import type { Metadata } from "next";
@@ -37,12 +33,13 @@ export default function RootLayout({
       <body className={cn("antialiased coffee-beans-bg", interSans.className)}>
         <QueryProvider>
           <ReduxProvider>
-            <WebsocketMessagingProvider>
-              <AntdRegistry>{children}</AntdRegistry>
-            </WebsocketMessagingProvider>
+            <WebsocketMessagingProvider>{children}</WebsocketMessagingProvider>
           </ReduxProvider>
         </QueryProvider>
-        <Toaster theme="light" />
+        <Toaster
+          theme="light"
+          toastOptions={{ style: { pointerEvents: "auto", userSelect: "none" } }}
+        />
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export default function Layout({
   return (
     <main className="bg-white max-w-6xl mx-auto min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">{children}</AnimatePresence>
       </main>
       <Footer />

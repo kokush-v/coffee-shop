@@ -14,6 +14,8 @@ class AuthService {
   public login = useMutation({
     mutationKey: ["login"],
     onSuccess: (response: AuthLoginResponse) => {
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+
       document.cookie = `access-token=${response.data.token}; path=/`;
     },
     mutationFn: async (form: AuthLoginFields) => api.post(this.routes.login, { ...form }),
