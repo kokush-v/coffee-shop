@@ -43,7 +43,7 @@ export const ProfileDropdownLoggedIn = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            document.cookie = "access-token=";
+            document.cookie = "access-token=;path=/";
             api.defaults.headers["Authorization"] = null;
 
             if (pathname.startsWith("/my")) {

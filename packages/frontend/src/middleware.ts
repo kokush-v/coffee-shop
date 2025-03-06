@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { cookies } from "next/headers";
 
+import tokenService from "@/src/lib/token";
+
 export default async function middleware(request: NextRequest) {
   const cookie = await cookies();
 
@@ -10,7 +12,11 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname.startsWith("/my/orders/manage")) {
-    // TODO: check if user is_staff
+    const { data, error } = await tokenService.readToken();
+
+    if (error || (data && !data.is_staff)) {
+      return NextResponse.redirect(new URL("/my/orders", request.url));
+    }
   }
 
   return NextResponse.next();
