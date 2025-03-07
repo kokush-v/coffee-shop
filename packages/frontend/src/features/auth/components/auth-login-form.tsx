@@ -53,6 +53,8 @@ export const AuthLoginForm = () => {
     });
 
     router.push("/");
+
+    router.refresh();
   };
 
   return (
