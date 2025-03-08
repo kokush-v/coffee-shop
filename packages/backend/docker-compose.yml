@@ -1,0 +1,25 @@
+services:
+   postgres:
+      image: postgres:16
+      container_name: coffee-shop-pg
+      environment:
+         POSTGRES_USER: postgres # Имя пользователя
+         POSTGRES_PASSWORD: coffeshop # Пароль
+         POSTGRES_DB: coffee_shop # Имя базы данных
+      ports:
+         - "5432:5432" # Пробрасываем порт
+      volumes:
+         - ./postgres_data:/var/lib/postgresql/data # Монтируем данные для их сохранения
+
+   redis:
+      image: redis:7
+      container_name: coffee-shop-redis
+      ports:
+         - "6379:6379"
+      volumes:
+         - ./redis_data:/data
+      command: ["redis-server", "--appendonly yes"]
+
+volumes:
+   postgres_data:
+   redis_data:

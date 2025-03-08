@@ -1,2 +1,4 @@
 /node_modules
 /.venv
+/packages/*/.env
+/packages/backend/base/static
