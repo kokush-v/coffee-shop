@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ltd%^t*9q$dbk@t#rd9@!cgr$%&3slbs(e(0)=^m^cw8kw$sgo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = [
     'coffee-shop-backend-3s34.onrender.com'
