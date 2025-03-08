@@ -8,10 +8,14 @@ class ProductsService {
     products: (page: number) => `/products?page=${page}`,
   };
 
-  public async getProducts(page: number = 1): Promise<PaginatedResponse<Product[]>> {
-    const { data } = await api.get<PaginatedResponse<Product[]>>(this.routes.products(page));
+  public async getProducts(page: number = 1) {
+    try {
+      const { data } = await api.get<PaginatedResponse<Product[]>>(this.routes.products(page));
 
-    return data;
+      return { data, error: null };
+    } catch {
+      return { data: null, error: "Could not fetch products" };
+    }
   }
 }
 
