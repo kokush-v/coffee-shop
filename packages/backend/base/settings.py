@@ -30,11 +30,12 @@ SECRET_KEY = 'django-insecure-ltd%^t*9q$dbk@t#rd9@!cgr$%&3slbs(e(0)=^m^cw8kw$sgo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'coffee-shop-backend-3s34.onrender.com'
+]
 
 CORS_ALLOWED_ORIGINS = [
     'https://coffee-shop-django.vercel.app',
-    'coffee-shop-backend-3s34.onrender.com'
 ]
 
 # Application definition
