@@ -20,8 +20,6 @@ export const orderReceivedEvent = (
   data: WebsocketOrder
 ) => {
   const user = client.getQueryData<User>(["user"]);
-  if (data.sender != "Система") return;
-
   client.setQueryData(["orders", "pending"], (prev: QueryPayload): QueryPayload => {
     const productTitle = data.order.products[0].product.title;
     const productsLen = data.order.products.reduce((prev, cur) => prev + cur.quantity, 0) - 1;

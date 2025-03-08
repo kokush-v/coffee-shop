@@ -47,8 +47,11 @@ export const cartSlice = createSlice({
 
       if (!product) return;
 
-      if (product.quantity <= 1) {
+      if (product.quantity <= 1 && state.items.length == 1) {
         state.isSheetOpen = false;
+      }
+
+      if (product.quantity <= 1) {
         state.items = state.items.filter((item) => item.product.id !== action.payload);
       } else {
         state.items = state.items.map((item) =>
