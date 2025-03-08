@@ -28,13 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ltd%^t*9q$dbk@t#rd9@!cgr$%&3slbs(e(0)=^m^cw8kw$sgo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'coffee-shop-backend-3s34.onrender.com'
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://coffee-shop-backend-3s34.onrender.com'
+]
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:3000',
-    'http://localhost:3000'
+    'https://coffee-shop-django.vercel.app',
 ]
 
 # Application definition
