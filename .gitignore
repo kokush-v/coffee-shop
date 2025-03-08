@@ -2,3 +2,5 @@
 /.venv
 /packages/*/.env
 /packages/backend/base/static
+/package-lock.json
+/yarn.lock
