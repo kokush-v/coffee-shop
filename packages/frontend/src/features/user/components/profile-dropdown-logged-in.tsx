@@ -40,12 +40,14 @@ export const ProfileDropdownLoggedIn = () => {
 						Профіль
 					</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<Link target="_blank" href={`${BACKEND_URL}/admin`}>
-						<FolderCog />
-						Панель керування
-					</Link>
-				</DropdownMenuItem>
+				{data?.is_staff && (
+					<DropdownMenuItem asChild>
+						<Link target="_blank" href={`${BACKEND_URL}/admin`}>
+							<FolderCog />
+							Панель керування
+						</Link>
+					</DropdownMenuItem>
+				)}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					onClick={() => {
