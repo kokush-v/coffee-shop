@@ -9,6 +9,7 @@ import { ProductContext } from "@/src/features/products/context/product-context"
 import { Text, Weight } from "lucide-react";
 import { ProductModalFooter } from "@/src/features/products/components/product-modal-footer";
 import Image from "next/image";
+import { AspectRatio } from "@/src/components/ui/aspect-ratio";
 
 export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
   const product = useContext(ProductContext);
@@ -17,13 +18,15 @@ export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => 
 
   return (
     <>
-      <Image
-        width={400}
-        height={400}
-        alt={product.title}
-        src={product.image_src}
-        className="rounded-lg object-cover mb-1.5 w-full"
-      />
+      <AspectRatio ratio={4 / 3}>
+        <Image
+          width={400}
+          height={400}
+          alt={product.title}
+          src={product.image_src}
+          className="rounded-lg object-fill mb-1.5 w-full"
+        />
+      </AspectRatio>
       <Typography variant="h2">{product.title}</Typography>
       <Typography className="text-sm text-zinc-500 font-medium flex-row flex items-center gap-1">
         <Weight size={14} />
