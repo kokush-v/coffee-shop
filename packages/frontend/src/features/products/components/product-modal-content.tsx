@@ -9,6 +9,8 @@ import { ProductContext } from "@/src/features/products/context/product-context"
 import { Text, Weight } from "lucide-react";
 import { ProductModalFooter } from "@/src/features/products/components/product-modal-footer";
 import Image from "next/image";
+import { AspectRatio } from "@/src/components/ui/aspect-ratio";
+import { CredenzaContent } from "@/src/components/ui/credenza";
 
 export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
   const product = useContext(ProductContext);
@@ -16,15 +18,18 @@ export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => 
   if (!product) return null;
 
   return (
-    <>
-      <Image
-        width={400}
-        height={400}
-        alt={product.title}
-        src={product.image_src}
-        className="rounded-lg object-cover mb-1.5 w-full"
-      />
-      <Typography variant="h2">{product.title}</Typography>
+    <CredenzaContent className="min-[520px]:pt-10">
+      <AspectRatio ratio={4 / 3}>
+        <Image
+          fill
+          alt={product.title}
+          src={product.image_src}
+          className="rounded-lg object-scale-down mb-1.5 h-auto w-auto"
+        />
+      </AspectRatio>
+      <Typography variant="h2" className="mt-1">
+        {product.title}
+      </Typography>
       <Typography className="text-sm text-zinc-500 font-medium flex-row flex items-center gap-1">
         <Weight size={14} />
         {product.product_weight} г.
@@ -39,6 +44,6 @@ export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => 
         </Typography>
       </div>
       <ProductModalFooter setOpen={setOpen} />
-    </>
+    </CredenzaContent>
   );
 };

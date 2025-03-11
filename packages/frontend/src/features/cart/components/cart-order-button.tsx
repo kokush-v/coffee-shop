@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CreditCard, LogIn } from "lucide-react";
+import { CreditCard, Loader, LogIn } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
@@ -46,7 +46,7 @@ export const CartOrderButton = ({ className }: Props) => {
 
   const { clear, setSheetOpen } = cartMethods;
 
-  const { mutate } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationKey: ["create-order"],
     mutationFn: async (data: OrderPayload) => {
       const { data: response } = await api.post<Order>("/orders/", data);
@@ -75,6 +75,8 @@ export const CartOrderButton = ({ className }: Props) => {
     },
   });
 
+  const isOrderPending = isPending || isSuccess;
+
   const checkout = () => {
     const products = cart.items.map((item) => ({
       product_id: item.product.id,
@@ -99,8 +101,12 @@ export const CartOrderButton = ({ className }: Props) => {
   }
 
   return (
-    <Button className={cn("select-none disabled:cursor-not-allowed", className)} onClick={checkout}>
-      <CreditCard />
+    <Button
+      disabled={isOrderPending}
+      className={cn("select-none disabled:cursor-not-allowed", className)}
+      onClick={checkout}
+    >
+      {isOrderPending ? <Loader className="animate-spin" /> : <CreditCard />}
       Зробити замовлення
     </Button>
   );
