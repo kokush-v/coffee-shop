@@ -1,22 +1,25 @@
 {
-	"name": "coffee-shop",
-	"version": "1.0.0",
-	"author": "kokush <witalik.logoyda@gmail.com>",
-	"repository": "git@github.com:kokush-v/coffee-shop",
-	"devDependencies": {
-		"wait-on": "^8.0.2"
-	},
-	"license": "MIT",
-	"private": "true",
-	"scripts": {
-		"dev:both": "bash -c 'yarn workspace frontend dev & yarn dev:backend & wait'",
-		"dev:backend": "cd packages/backend && pipenv run daphne -b 0.0.0.0 -p 8000 base.asgi:application",
-		"dev:frontend": "yarn workspace frontend dev",
-		"build:frontend": "yarn workspace frontend build",
-		"build:backend": "cd packages/backend && pipenv run python manage.py collectstatic",
-		"production:frontend": "yarn workspace frontend start"
-	},
-	"workspaces": [
-		"packages/*"
-	]
+  "name": "coffee-shop",
+  "version": "1.0.0",
+  "author": "kokush <witalik.logoyda@gmail.com>",
+  "repository": "git@github.com:kokush-v/coffee-shop",
+  "devDependencies": {
+    "wait-on": "^8.0.2"
+  },
+  "license": "MIT",
+  "private": "true",
+  "scripts": {
+    "dev:both": "concurrently -n 'api,web', -c '#007755,#2f6da3', 'yarn dev:frontend' 'yarn dev:backend'",
+    "dev:backend": "cd packages/backend && pipenv run daphne -b 0.0.0.0 -p 8000 base.asgi:application",
+    "dev:frontend": "yarn workspace frontend dev",
+    "build:frontend": "yarn workspace frontend build",
+    "build:backend": "cd packages/backend && pipenv run python manage.py collectstatic",
+    "production:frontend": "yarn workspace frontend start"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
 }

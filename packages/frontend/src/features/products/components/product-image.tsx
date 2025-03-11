@@ -19,11 +19,10 @@ export const ProductImage = () => {
         {product.product_weight} г.
       </Typography>
       <Image
+        fill
         onLoad={() => setLoaded(true)}
         src={product.image_src}
         alt={product.title}
-        width={300}
-        height={400}
         className="flex-1 bg-zinc-100 object-cover z-10"
       />
       <AnimatePresence>

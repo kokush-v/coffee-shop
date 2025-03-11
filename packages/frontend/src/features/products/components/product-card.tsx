@@ -1,6 +1,6 @@
 "use client";
 
-import { ResponsiveDialog } from "@/src/components/ui/responsive-dialog";
+import { Credenza, CredenzaTrigger } from "@/src/components/ui/credenza";
 import { Typography } from "@/src/components/ui/typography";
 
 import { ProductImage } from "@/src/features/products/components/product-image";
@@ -16,10 +16,8 @@ export const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <ProductContext.Provider value={product}>
-      <ResponsiveDialog
-        open={open}
-        setOpen={setOpen}
-        trigger={
+      <Credenza open={open} onOpenChange={setOpen}>
+        <CredenzaTrigger>
           <div className="w-full max-sm:w-54 cursor-pointer">
             <ProductImage />
             <div className="px-2">
@@ -36,10 +34,9 @@ export const ProductCard = ({ product }: { product: Product }) => {
               </Typography>
             </div>
           </div>
-        }
-      >
+        </CredenzaTrigger>
         <ProductModalContent setOpen={setOpen} />
-      </ResponsiveDialog>
+      </Credenza>
     </ProductContext.Provider>
   );
 };
