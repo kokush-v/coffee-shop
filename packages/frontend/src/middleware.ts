@@ -11,10 +11,14 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (request.nextUrl.pathname.startsWith("/my/orders/manage")) {
-    const { data, error } = await tokenService.readToken();
+  const { data, error } = await tokenService.readToken();
 
-    if (error || (data && !data.is_staff)) {
+  if (error || !data) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (request.nextUrl.pathname.startsWith("/my/orders/manage")) {
+    if (!data.is_staff) {
       return NextResponse.redirect(new URL("/my/orders", request.url));
     }
   }
