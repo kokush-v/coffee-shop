@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 
 
 class RegisterShopUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(min_length=8)
+    password = serializers.CharField(min_length=8, write_only=True)
     username = serializers.CharField(min_length=2)
 
     class Meta:
@@ -21,11 +21,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        
+
+
         token['is_staff'] = user.is_staff
-        
+
         return token
-    
+
     def validate(self, attrs):
         data = super().validate(attrs)
 
