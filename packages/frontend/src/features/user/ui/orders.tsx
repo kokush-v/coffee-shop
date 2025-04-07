@@ -32,16 +32,18 @@ export const Orders = () => {
             data?.results.map((order, index) => <OrdersItem key={index} order={order} />)
           )}
         </Accordion>
-        <Button
-          disabled={!hasNextPage}
-          onClick={() => fetchNextPage()}
-          variant="ghost"
-          size="sm"
-          className="text-xs mt-2 mx-auto"
-        >
-          <RotateCcw />
-          {hasNextPage ? "Завантажити ще" : "Ви дійшли до кінця"}
-        </Button>
+        {hasNextPage && (
+          <Button
+            disabled={!hasNextPage}
+            onClick={() => fetchNextPage()}
+            variant="ghost"
+            size="sm"
+            className="text-xs mt-2 mx-auto mb-3"
+          >
+            <RotateCcw />
+            Завантажити ще
+          </Button>
+        )}
       </main>
     </div>
   );
