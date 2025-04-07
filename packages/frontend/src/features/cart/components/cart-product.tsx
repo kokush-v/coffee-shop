@@ -16,23 +16,25 @@ const iconSize = 14;
 const CartProductActions = ({ item }: { item: CartItem }) => {
   const dispatch = useAppDispatch();
 
-  const { decreaseQuantity, increaseQuantity } = cartMethods;
-
-  const shouldDelete = item.quantity <= 1;
+  const { deleteItem, decreaseQuantity, increaseQuantity } = cartMethods;
 
   return (
     <>
       <Button
         className="w-10"
         size="sm"
-        variant={shouldDelete ? "destructive" : "outline"}
+        variant="destructive"
+        onClick={() => dispatch(deleteItem(item.product.id))}
+      >
+        <Trash2Icon size={iconSize} className="flex-1 w-full" />
+      </Button>
+      <Button
+        className="w-10"
+        size="sm"
+        variant="outline"
         onClick={() => dispatch(decreaseQuantity(item.product.id))}
       >
-        {shouldDelete ? (
-          <Trash2Icon size={iconSize} className="flex-1 w-full" />
-        ) : (
-          <Minus size={iconSize} className="flex-1 w-full" />
-        )}
+        <Minus size={iconSize} className="flex-1 w-full" />
       </Button>
       <Typography className="text-sm font-medium text-zinc-700 w-4 text-center">
         {item.quantity}
