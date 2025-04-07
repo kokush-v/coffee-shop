@@ -15,7 +15,7 @@ export const ProductImage = () => {
 
   return (
     <div className="rounded-lg overflow-hidden mb-1 flex relative w-full h-[200px]">
-      <Typography className="bg-white p-2 py-1 text-xs font-medium text-zinc-700 absolute top-2 right-2 rounded-lg z-40">
+      <Typography className="bg-white p-2 py-1 text-xs font-medium text-zinc-700 absolute top-2 right-2 rounded-lg z-40 border border-zinc-200">
         {product.product_weight} г.
       </Typography>
       <Image
