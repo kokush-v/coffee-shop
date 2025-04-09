@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { Edit } from "lucide-react";
 
-import { Typography } from "@/src/components/ui/typography";
 import { TextArea } from "@/src/components/ui/text-area";
 import { Button } from "@/src/components/ui/button";
 
@@ -13,6 +12,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/src/components/ui/dialog";
 
@@ -39,17 +39,17 @@ export const CartProductsNote = () => {
 
   return (
     <>
-      <Dialog>
-        <DialogTrigger>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
           <Button variant="outline" className="text-primary/70">
             <Edit />
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <Typography className="text-zinc-700 -mt-2 mb-6 font-semibold">
+            <DialogTitle className="text-zinc-700 -mt-2 mb-6 font-semibold text-lg">
               Залишити побажання до замовлення
-            </Typography>
+            </DialogTitle>
           </DialogHeader>
           <TextArea
             className="h-[160px]"
