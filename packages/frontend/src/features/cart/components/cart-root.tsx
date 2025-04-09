@@ -17,7 +17,6 @@ import { useAppDispatch, useAppSelector } from "@/src/store";
 import { CartContent } from "@/src/features/cart/ui/cart-content";
 
 import { cartMethods } from "@/src/features/cart/store/cart-slice";
-import { Typography } from "@/src/components/ui/typography";
 
 import { CartFooter } from "@/src/features/cart/components/cart-footer";
 
@@ -40,11 +39,7 @@ export const CartTrigger = () => {
         </Button>
       </SheetTrigger>
       <SheetContent className="flex flex-col">
-        <SheetTitle className="pr-4 -mt-3.5">
-          <Typography variant="h2" className="text-lg font-semibold">
-            Кошик
-          </Typography>
-        </SheetTitle>
+        <SheetTitle className="pr-4 -mt-3.5 text-lg font-semibold">Кошик</SheetTitle>
         <CartContent />
         <SheetFooter>
           <CartFooter />
