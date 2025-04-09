@@ -1,6 +1,6 @@
-import { dayFields } from "@/src/features/footer/const/work-hours-const";
+import { dayFields } from "@/src/const/work-hours-const";
 
-import { FooterSocialUrl } from "@/src/features/footer/components/footer-url";
+import { FooterSocialUrl } from "@/src/components/footer-url";
 import { cn } from "@/src/lib/utils";
 
 export const Footer = () => {

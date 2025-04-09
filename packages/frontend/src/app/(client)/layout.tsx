@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import { AnimatePresence } from "framer-motion";
 
-import { Header } from "@/src/features/header/ui/header";
-import { Footer } from "@/src/features/footer/ui/footer";
+import { Header } from "@/src/components/header";
+import { Footer } from "@/src/components/footer";
 
 export const metadata: Metadata = {
   title: "Coffee Shop",
