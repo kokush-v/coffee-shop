@@ -10,7 +10,7 @@ import { Text, Weight } from "lucide-react";
 import { ProductModalFooter } from "@/src/features/products/components/product-modal-footer";
 import Image from "next/image";
 import { AspectRatio } from "@/src/components/ui/aspect-ratio";
-import { CredenzaContent } from "@/src/components/ui/credenza";
+import { CredenzaContent, CredenzaTitle } from "@/src/components/ui/credenza";
 
 export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
   const product = useContext(ProductContext);
@@ -27,9 +27,7 @@ export const ProductModalContent = ({ setOpen }: { setOpen: (state: boolean) => 
           className="rounded-lg object-scale-down mb-1.5 h-auto w-auto"
         />
       </AspectRatio>
-      <Typography variant="h2" className="mt-1">
-        {product.title}
-      </Typography>
+      <CredenzaTitle className="mt-1 text-2xl font-bold">{product.title}</CredenzaTitle>
       <Typography className="text-sm text-zinc-500 font-medium flex-row flex items-center gap-1">
         <Weight size={14} />
         {product.product_weight} г.

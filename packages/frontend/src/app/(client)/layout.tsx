@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 import { AnimatePresence } from "framer-motion";
 
-import { Header } from "@/src/features/header/ui/header";
-import { Footer } from "@/src/features/footer/ui/footer";
+import { Header } from "@/src/components/header";
+import { Footer } from "@/src/components/footer";
+import { Chat } from "@/src/features/support/ui/chat";
 
 export const metadata: Metadata = {
   title: "Coffee Shop",
@@ -21,6 +22,7 @@ export default function Layout({
       <main className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">{children}</AnimatePresence>
       </main>
+      <Chat />
       <Footer />
     </main>
   );

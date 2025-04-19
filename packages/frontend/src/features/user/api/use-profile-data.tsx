@@ -7,6 +7,7 @@ import { api } from "@/src/config/api";
 
 import { User } from "@/src/features/user/types/user";
 import websocketService from "@/src/lib/websocket-service";
+import { AxiosError } from "axios";
 
 export const useProfileData = () => {
   const token = getCookie("access-token");
@@ -20,17 +21,30 @@ export const useProfileData = () => {
 
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const req = await api.get("/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const req = await api.get("/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (websocketService.websocket?.readyState == websocketService.websocket?.CLOSED) {
-        websocketService.connect();
+        if (websocketService.websocket?.readyState == websocketService.websocket?.CLOSED) {
+          websocketService.connect();
+        }
+
+        return req.data;
+      } catch (e) {
+        const error = e as unknown as AxiosError;
+
+        if (error.status == 401) {
+          document.cookie = "access-token=;path=/";
+          api.defaults.headers["Authorization"] = null;
+
+          return null;
+        }
+
+        throw "Something went wrong";
       }
-
-      return req.data;
     },
     staleTime: 1000 * 60 * 60 * 5,
   });
