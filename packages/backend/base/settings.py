@@ -25,7 +25,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'coffee-shop-backend-3s34.onrender.com'
+    'coffee-shop-backend-3s34.onrender.com', 
+    'localhost',
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://coffee-shop-backend-3s34.onrender.com'

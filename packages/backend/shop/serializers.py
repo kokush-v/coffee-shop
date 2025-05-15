@@ -51,17 +51,14 @@ class OrderSerializer(serializers.ModelSerializer):
                   'created_at', 'note', 'total_price']
 
     def validate(self, attrs):
-        # Додаємо поточного користувача до validated_data
         attrs["user"] = self.context["request"].user
         return super().validate(attrs)
 
     def get_products(self, obj):
-        # Повертаємо список продуктів замовлення із детальною інформацією
         order_products = OrderProducts.objects.filter(order=obj)
         return OrderProductDetailSerializer(order_products, many=True).data
 
     def get_user(self, obj):
-        # Повертаємо інформацію про користувача
         return ShopUserSerializer(obj.user).data
 
     def create(self, validated_data):
@@ -86,6 +83,7 @@ class OrderSerializer(serializers.ModelSerializer):
         order.save()
 
         return order
+        
 
     def update(self, instance, validated_data):
         instance.status = validated_data.get("status", instance.status)

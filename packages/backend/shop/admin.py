@@ -24,4 +24,19 @@ class MyUserAdmin(UserAdmin):
 
 
 admin.site.register(models.Product)
-admin.site.register(models.Order)
+
+class OrderProductsInline(admin.TabularInline):
+    model = models.OrderProducts
+    extra = 1  # How many empty forms to show by default
+
+
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [OrderProductsInline]
+    list_display = ('id', 'user', 'status', 'created_at', 'total_price')
+    list_filter = ('status', 'created_at')
+    search_fields = ('user__email', 'user__username')
+    
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        form.instance.update_total_price()

@@ -38,14 +38,20 @@ class Order(models.Model):
     note = models.TextField(blank=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
+    def update_total_price(self):
+        total = 0
+        for op in self.orderproducts_set.all():
+            total += op.product.price * op.quantity
+        self.total_price = total
+        self.save(update_fields=['total_price'])
+
     def save(self, *args, **kwargs):
         if not self.pk:
             self.status = self.DEFAULT_STATUS
-        
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return f"Order #{self.pk} - {self.user}"
+        return f"Order #{self.pk} - {self.user} ({self.created_at.strftime('%Y-%m-%d %H:%M')})"
 
 
 class ShopUserCustomManager(BaseUserManager):
