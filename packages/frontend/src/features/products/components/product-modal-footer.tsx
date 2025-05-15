@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { ProductContext } from "@/src/features/products/context/product-context";
 
 export const ProductModalFooter = ({ setOpen }: { setOpen: (state: boolean) => void }) => {
-  const { addToCart } = cartMethods;
+  const { addToCart, setSheetOpen } = cartMethods;
   const dispatch = useAppDispatch();
 
   const product = useContext(ProductContext);
@@ -20,11 +20,12 @@ export const ProductModalFooter = ({ setOpen }: { setOpen: (state: boolean) => v
   return (
     <>
       <Button
-        disabled={!!cartItem}
         variant="outline"
         key="submit"
         onClick={() => {
           setOpen(false);
+          if (cartItem) return dispatch(setSheetOpen(true));
+
           dispatch(
             addToCart({
               product,
@@ -33,7 +34,7 @@ export const ProductModalFooter = ({ setOpen }: { setOpen: (state: boolean) => v
           );
         }}
       >
-        {!!cartItem ? "У кошику" : `Додати в кошик за ${product.price}₴`}
+        {!!cartItem ? "Перейти у кошик" : `Додати в кошик за ${product.price}₴`}
       </Button>
     </>
   );

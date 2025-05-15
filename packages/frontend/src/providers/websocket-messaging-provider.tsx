@@ -1,5 +1,3 @@
-// TODO: use event emitter for this provider
-
 "use client";
 
 import { useEffect } from "react";

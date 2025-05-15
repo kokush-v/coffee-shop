@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { Button } from "@/src/components/ui/button";
-import { Header } from "@/src/features/header/ui/header";
-import { Footer } from "@/src/features/footer/ui/footer";
+import { Header } from "@/src/components/header";
+import { Footer } from "@/src/components/footer";
 
 import { Unplug } from "lucide-react";
 

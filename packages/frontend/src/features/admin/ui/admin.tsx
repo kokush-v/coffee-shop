@@ -60,16 +60,18 @@ const RenderAdminOrders = ({ initialData }: { initialData: PaginatedResponse<Ord
               page.results.map((order) => <AdminOrderComponent key={order.id} order={order} />)
           )}
         </Accordion>
-        <Button
-          disabled={!hasNextPage}
-          onClick={() => fetchNextPage()}
-          variant="ghost"
-          size="sm"
-          className="text-xs mt-2 mx-auto"
-        >
-          <RotateCcw />
-          {hasNextPage ? "Завантажити ще" : "Ви дійшли до кінця"}
-        </Button>
+        {hasNextPage && (
+          <Button
+            disabled={!hasNextPage}
+            onClick={() => fetchNextPage()}
+            variant="ghost"
+            size="sm"
+            className="text-xs mt-2 mx-auto"
+          >
+            <RotateCcw />
+            Завантажити ще
+          </Button>
+        )}
       </>
     );
   }
