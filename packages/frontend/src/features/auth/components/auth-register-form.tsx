@@ -20,6 +20,8 @@ import { Loader } from "lucide-react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { getAxiosErrMsg } from "@/src/utils/get-axios-err-msg";
+import { AxiosError } from "axios";
 
 export const AuthRegisterForm = () => {
 	const { control, handleSubmit, setError } = useForm<AuthRegisterFields>({
@@ -29,19 +31,21 @@ export const AuthRegisterForm = () => {
 	const router = useRouter();
 
 	const {
-		login: { mutateAsync: login, isError: isLoginError, isPending: isPendingLogin, isSuccess },
-		register: { mutateAsync: register, isError: isRegisterError, isPending: isPendingRegister },
+		login: { mutateAsync: login, isError: isLoginError, isPending: isPendingLogin, isSuccess, error: loginError },
+		register: { mutateAsync: register, isError: isRegisterError, isPending: isPendingRegister, error: registerError },
 	} = new AuthService();
 
 	const isLoading = isPendingRegister || isPendingLogin || isSuccess;
 
 	useEffect(() => {
 		if (isRegisterError || isLoginError) {
+			const errMsg = getAxiosErrMsg((loginError || registerError) as AxiosError);
+
 			setError("root", {
-				message: "Щось пішло не так",
+				message: errMsg,
 			});
 		}
-	}, [isRegisterError, isLoginError, setError]);
+	}, [isRegisterError, isLoginError, setError, loginError, registerError]);
 
 	const client = useQueryClient();
 

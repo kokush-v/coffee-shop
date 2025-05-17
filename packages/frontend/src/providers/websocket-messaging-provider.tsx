@@ -4,61 +4,64 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 
-import websocketService from "@/src/lib/websocket-service";
-import { orderReceivedEvent, orderStatusChange } from "@/src/features/websocket";
+import { orderReceivedEvent, orderStatusChange } from "@/src/hooks/websocket";
 
 import { api } from "@/src/config/api";
-import { WebsocketOrder } from "@/src/features/websocket/type/websocket-order";
+import { WebsocketOrder } from "@/src/hooks/websocket/type/websocket-order";
 
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
+import WebSocketService from "@/src/services/websocket-service";
 
 export const WebsocketMessagingProvider = ({ children }: { children?: React.ReactNode }) => {
-  const client = useQueryClient();
+	const client = useQueryClient();
 
-  const router = useRouter();
+	const router = useRouter();
 
-  const { data: currentUser } = useProfileData();
+	const { data: currentUser } = useProfileData();
 
-  useEffect(() => {
-    if (!currentUser) {
-      return websocketService.disconnect();
-    }
+	const orderWebSocket = new WebSocketService<WebsocketOrder>("orders");
 
-    websocketService.connect();
+	useEffect(() => {
+		if (!currentUser) {
+			return orderWebSocket.disconnect();
+		}
 
-    client.prefetchInfiniteQuery({
-      queryKey: ["user-orders"],
-      queryFn: async () => {
-        const { data } = await api.get("/orders/?staff_orders=false");
+		orderWebSocket.connect();
 
-        return data;
-      },
-      initialPageParam: 1,
-    });
+		client.prefetchInfiniteQuery({
+			queryKey: ["user-orders"],
+			queryFn: async () => {
+				const { data } = await api.get("/orders/?staff_orders=false");
 
-    client.prefetchInfiniteQuery({
-      queryKey: ["orders", "pending"],
-      queryFn: async () => {
-        const { data } = await api.get("/orders/?status=pending");
+				return data;
+			},
+			initialPageParam: 1,
+		});
 
-        return data;
-      },
-      initialPageParam: 1,
-    });
+		client.prefetchInfiniteQuery({
+			queryKey: ["orders", "pending"],
+			queryFn: async () => {
+				const { data } = await api.get("/orders/?status=pending");
 
-    websocketService.event((data: WebsocketOrder) => {
-      switch (data.order_type) {
-        case "new_order":
-          orderReceivedEvent(router, client, data);
-        case "changed_order":
-          orderStatusChange(client, data);
-      }
-    });
+				return data;
+			},
+			initialPageParam: 1,
+		});
 
-    return () => {
-      websocketService.disconnect();
-    };
-  }, [currentUser, client, router]);
+		orderWebSocket.onMessage((data: WebsocketOrder) => {
+			switch (data.order_type) {
+				case "new_order":
+					orderReceivedEvent(router, client, data);
+				case "changed_order":
+					orderStatusChange(client, data);
+			}
+		});
 
-  return children;
+		return () => {
+			orderWebSocket.disconnect();
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentUser, client, router]);
+
+	return children;
 };

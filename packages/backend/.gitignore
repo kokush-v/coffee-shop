@@ -1,3 +1,6 @@
 *__pycache__
 postgres_data/
 redis_data/
+
+.env
+.env.prod

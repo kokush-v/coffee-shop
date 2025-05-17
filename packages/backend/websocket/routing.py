@@ -4,4 +4,7 @@ from . import consumers
 websocket_urlpatterns = [
     re_path(r'ws/orders/$',
             consumers.NotificationConsumer.as_asgi()),
+
+    re_path(r'ws/support',
+            consumers.ChatConsumer.as_asgi()),
 ]

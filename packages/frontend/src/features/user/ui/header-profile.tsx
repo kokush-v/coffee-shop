@@ -6,11 +6,11 @@ import { ProfileDropdownLoggedIn } from "@/src/features/user/components/profile-
 import { useProfileData } from "@/src/features/user/api/use-profile-data";
 
 export const Profile = () => {
-  const { data } = useProfileData();
+	const { data } = useProfileData();
 
-  if (!data) {
-    return <ProfileDropdownGuest />;
-  }
+	if (!data) {
+		return <ProfileDropdownGuest />;
+	}
 
-  return <ProfileDropdownLoggedIn />;
+	return <ProfileDropdownLoggedIn />;
 };

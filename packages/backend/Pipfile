@@ -6,8 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
-psycopg = "*"
-python-dotenv = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 channels = "*"
@@ -15,6 +13,9 @@ channels-redis = "*"
 daphne = "*"
 whitenoise = "*"
 django-filter = "*"
+psycopg = "*"
+dj-database-url = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

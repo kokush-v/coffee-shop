@@ -19,6 +19,8 @@ import AuthService from "@/src/features/auth/api/auth-service";
 import { Loader } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { getAxiosErrMsg } from "@/src/utils/get-axios-err-msg";
+import { AxiosError } from "axios";
 
 export const AuthLoginForm = () => {
 	const {
@@ -35,16 +37,18 @@ export const AuthLoginForm = () => {
 	const client = useQueryClient();
 
 	const {
-		login: { mutateAsync, isError, isPending, isSuccess },
+		login: { mutateAsync, isError, isPending, isSuccess, error },
 	} = new AuthService();
 
 	useEffect(() => {
 		if (isError) {
+			const errMsg = getAxiosErrMsg(error as AxiosError);
+
 			setError("root", {
-				message: "Щось пішло не так",
+				message: errMsg,
 			});
 		}
-	}, [isError, setError]);
+	}, [isError, setError, error]);
 
 	const onSubmit = async (form: AuthLoginFields) => {
 		toast.promise(mutateAsync(form), {
