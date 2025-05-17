@@ -2,11 +2,12 @@ from os import name
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import CustomTokenObtainPairView, GetUserView, OrderViewSet, ProductViewSet, RegisterShopUserView
+from .views import CustomTokenObtainPairView, GetUserView, OrderViewSet, ProductViewSet, RegisterShopUserView, GetChatSessionsView
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewSet)
 router.register('orders', OrderViewSet)
+router.register('chat-sessions', GetChatSessionsView, basename='chat_sessions')
 
 urlpatterns = [
     path('', include(router.urls)),

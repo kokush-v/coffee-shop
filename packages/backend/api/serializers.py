@@ -2,6 +2,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from shop.models import ShopUser
 from django.forms.models import model_to_dict
+from django.http import Http404
 
 
 class RegisterShopUserSerializer(serializers.ModelSerializer):
@@ -22,12 +23,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-
         token['is_staff'] = user.is_staff
 
         return token
 
     def validate(self, attrs):
+        email = attrs.get("email")
+        if not ShopUser.objects.filter(email=email).exists():
+            raise Http404("User does not exist")
+
         data = super().validate(attrs)
 
         user_dict = model_to_dict(

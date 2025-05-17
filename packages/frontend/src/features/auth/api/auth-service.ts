@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/src/config/api";
 
@@ -15,7 +16,6 @@ class AuthService {
 		mutationKey: ["login"],
 		onSuccess: (response: AuthLoginResponse) => {
 			api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
-
 			document.cookie = `access-token=${response.data.token}; path=/`;
 		},
 		mutationFn: async (form: AuthLoginFields) => api.post(this.routes.login, { ...form }),

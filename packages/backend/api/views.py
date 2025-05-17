@@ -10,6 +10,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
+from .permissions import IsAdminRole
+from websocket.serializers import ChatSessionSerializer
+from websocket.models import ChatSession
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -33,7 +37,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         status = self.request.query_params.get('status')
         staff_orders = self.request.query_params.get('staff_orders', False)
-        
+
         if status:
             queryset = queryset.filter(status=status)
 
@@ -44,10 +48,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         allowed_fields = {"status"}
-        
-        if not self.request.user.is_staff:         
+
+        if not self.request.user.is_staff:
             if serializer.validated_data.get("status") == "ready":
-                raise ValidationError({"status": "You can’t set status 'ready'."})
+                raise ValidationError(
+                    {"status": "You can’t set status 'ready'."})
 
             for field in list(serializer.validated_data.keys()):
                 if field not in allowed_fields:
@@ -55,12 +60,14 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         serializer.save()
 
+
 class RegisterShopUserView(generics.CreateAPIView):
-    serializer_class = RegisterShopUserSerializer
     permission_classes = [AllowAny]
+    serializer_class = RegisterShopUserSerializer
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
 
 
@@ -70,3 +77,11 @@ class GetUserView(generics.RetrieveAPIView):
             request.user, fields=['id', 'email', 'username', 'is_staff'])
 
         return Response(user)
+
+
+class GetChatSessionsView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    queryset = ChatSession.objects.all()
+    serializer_class = ChatSessionSerializer
+    http_method_names = ['get']
