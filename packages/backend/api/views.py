@@ -77,11 +77,3 @@ class GetUserView(generics.RetrieveAPIView):
             request.user, fields=['id', 'email', 'username', 'is_staff'])
 
         return Response(user)
-
-
-class GetChatSessionsView(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-
-    queryset = ChatSession.objects.all()
-    serializer_class = ChatSessionSerializer
-    http_method_names = ['get']

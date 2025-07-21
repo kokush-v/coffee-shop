@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://coffee-shop-backend-3s34.onrender.com'
+    'http://localhost:8000',
 ]
 CORS_ALLOWED_ORIGINS = [
     'https://coffee-shop-django.vercel.app',
@@ -125,7 +126,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv("DATABASE_URL"),
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=False
     )
 }
 
