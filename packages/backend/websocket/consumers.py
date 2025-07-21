@@ -1,10 +1,10 @@
 from .models import ChatSession
+from .services import ChatService, ChatNotificationService
 from asgiref.sync import sync_to_async
 import json
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import ChatSession, ChatMessage
 from shop.models import ShopUser
-import re
 
 
 class NotificationConsumer(AsyncJsonWebsocketConsumer):
@@ -34,21 +34,28 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
             'order_type': event.get('order_type'),
         })
 
+    async def chat_notification(self, event):
+        """Handle chat notifications."""
+        await self.send_json(event.get('data', {}))
+
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.customer_id = self.scope['url_route']['kwargs']['session_id']
         self.room_group_name = f"chat_{self.customer_id}"
+        self.user = self.scope.get('user')
 
-        if not re.fullmatch(r'[0-9a-fA-F]{32}', self.customer_id):
+        # Validate session ID format
+        if not ChatService.validate_session_id(self.customer_id):
             await self.close()
             return
 
         print(f"Connecting to chat session for customer: {self.customer_id}")
 
+        # Ensure session exists
         session_exists = await sync_to_async(ChatSession.objects.filter(customer_id=self.customer_id).exists)()
         if not session_exists:
-            await sync_to_async(ChatSession.objects.create)(customer_id=self.customer_id)
+            await sync_to_async(ChatService.create_chat_session)(customer_id=self.customer_id)
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -63,29 +70,88 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             self.channel_name
         )
 
-    async def receive(self, text_data):
-        data = json.loads(text_data)
-        sender_id = data.get('sender_id', 'anonymous')
-        message = data.get('message', '')
+    async def receive_json(self, content):
+        """Handle incoming JSON messages."""
+        try:
+            sender_id = content.get('sender_id')
+            message_text = content.get('message', '').strip()
 
-        # Save message
-        session = await sync_to_async(ChatSession.objects.get)(id=self.customer_id)
-        sender = await sync_to_async(ShopUser.objects.get)(id=sender_id)
-        await sync_to_async(ChatMessage.objects.create)(
-            session=session, sender=sender, message=message
-        )
+            if not sender_id or not message_text:
+                await self.send_json({
+                    'error': 'Missing sender_id or message'
+                })
+                return
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message,
-                'sender_id': sender_id,
+            # Get sender user
+            try:
+                sender = await sync_to_async(ShopUser.objects.get)(id=sender_id)
+            except ShopUser.DoesNotExist:
+                await self.send_json({
+                    'error': 'Invalid sender_id'
+                })
+                return
+
+            # Send message using service
+            message = await sync_to_async(ChatService.send_message)(
+                customer_id=self.customer_id,
+                sender=sender,
+                message=message_text
+            )
+
+            # Prepare message data
+            message_data = {
+                'id': message.id,
+                'message': message.message,
+                'sender_id': sender.id,
+                'sender_name': 'Support Team' if sender.is_staff else (
+                    sender.get_full_name() or sender.username
+                ),
+                'is_staff': sender.is_staff,
+                'timestamp': message.timestamp.isoformat()
             }
-        )
+
+            # Send to chat room
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'data': message_data
+                }
+            )
+
+            # Send notifications to admins if message is from customer
+            if not sender.is_staff:
+                notification_data = await sync_to_async(
+                    ChatNotificationService.get_admin_notification_data
+                )(message)
+
+                await self.channel_layer.group_send(
+                    'admins',
+                    {
+                        'type': 'chat_notification',
+                        'data': notification_data
+                    }
+                )
+
+        except Exception as e:
+            await self.send_json({
+                'error': f'Failed to send message: {str(e)}'
+            })
+
+    async def receive(self, text_data):
+        """Handle text messages (backwards compatibility)."""
+        try:
+            data = json.loads(text_data)
+            await self.receive_json(data)
+        except json.JSONDecodeError:
+            await self.send_json({
+                'error': 'Invalid JSON format'
+            })
 
     async def chat_message(self, event):
-        await self.send_json({
-            'message': event['message'],
-            'sender_id': event['sender_id'],
-        })
+        """Send message to WebSocket."""
+        await self.send_json(event.get('data', {}))
+
+    async def chat_notification(self, event):
+        """Handle chat notifications in this consumer as well."""
+        await self.send_json(event.get('data', {}))
