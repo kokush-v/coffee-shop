@@ -7,8 +7,4 @@ websocket_urlpatterns = [
 
     re_path(r'ws/chat/(?P<session_id>[0-9a-fA-F]{32})/$',
             consumers.ChatConsumer.as_asgi()),
-
-    # Legacy support endpoint
-    re_path(r'ws/support/$',
-            consumers.ChatConsumer.as_asgi()),
 ]
