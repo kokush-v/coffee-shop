@@ -103,9 +103,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 'id': message.id,
                 'message': message.message,
                 'sender_id': sender.id,
-                'sender_name': 'Support Team' if sender.is_staff else (
-                    sender.get_full_name() or sender.username
-                ),
+                'sender_name': 'Support Team' if sender.is_staff else sender.username,
                 'is_staff': sender.is_staff,
                 'timestamp': message.timestamp.isoformat()
             }

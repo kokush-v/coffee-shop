@@ -305,7 +305,7 @@ class ChatNotificationService:
             'type': 'new_chat_message',
             'session_id': message.session.customer_id,
             'message': message.message,
-            'sender_name': message.sender.get_full_name() or message.sender.username,
+            'sender_name': 'Support Team' if message.sender.is_staff else message.sender.username,
             'sender_id': message.sender.id,
             'timestamp': message.timestamp.isoformat(),
             'is_customer': not message.sender.is_staff

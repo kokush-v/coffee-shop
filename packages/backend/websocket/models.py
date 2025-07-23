@@ -66,7 +66,8 @@ class ChatMessage(models.Model):
         """Get display name for the sender."""
         if self.sender.is_staff:
             return 'Support Team'
-        return self.sender.get_full_name() or self.sender.username
+
+        return self.sender.username
 
     class Meta:
         ordering = ['timestamp']

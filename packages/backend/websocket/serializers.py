@@ -21,7 +21,7 @@ class ChatMessageSerializer(serializers.ModelSerializer):
         """Get display name for the sender."""
         if obj.sender.is_staff:
             return 'Support Team'
-        return obj.sender.get_full_name() or obj.sender.username
+        return obj.sender.username
 
     def get_is_staff_message(self, obj):
         """Check if message is from staff."""
@@ -86,9 +86,7 @@ class ChatSessionListSerializer(serializers.ModelSerializer):
                 preview += "..."
             return {
                 'preview': preview,
-                'sender_name': 'Support Team' if last_message.sender.is_staff else (
-                    last_message.sender.get_full_name() or last_message.sender.username
-                ),
+                'sender_name': 'Support Team' if last_message.sender.is_staff else last_message.sender.username,
                 'is_staff': last_message.sender.is_staff,
                 'timestamp': last_message.timestamp
             }
