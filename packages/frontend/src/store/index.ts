@@ -1,11 +1,11 @@
 import { configureStore, Middleware } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 
-import cartSlice, { CartState } from "@/src/features/cart/store/cart-slice";
-import adminSlice, { AdminState } from "@/src/features/admin/store/admin-slice";
+import cartSlice from "@/src/features/cart/store/cart-slice";
+import adminSlice from "@/src/features/admin/store/admin-slice";
 
 const localStorageMiddleware: Middleware =
-  (store: { getState: () => { cart: CartState; admin: AdminState } }) => (next) => (action) => {
+  (store: { getState: () => RootState }) => (next) => (action) => {
     const result = next(action);
 
     localStorage.setItem("cart", JSON.stringify(store.getState().cart));
@@ -18,7 +18,8 @@ export const store = configureStore({
     cart: cartSlice,
     admin: adminSlice,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(localStorageMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

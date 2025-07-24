@@ -1,7 +1,12 @@
 "use client";
 
 import { Button } from "@/src/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/src/components/ui/popover";
+import { AdminSupportChatList } from "@/src/features/support/components/admin/admin-support-chat-list";
 import { SupportChat } from "@/src/features/support/components/support-chat";
 import { MessageCircle } from "lucide-react";
 import { useState } from "react";
@@ -16,7 +21,12 @@ export const Chat = () => {
           <MessageCircle />
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="left" sideOffset={-55} className="mb-2 pt-2">
+      <PopoverContent
+        side="left"
+        sideOffset={-55}
+        className="mb-2 pt-2 h-[500px]"
+      >
+        <AdminSupportChatList onClose={() => setOpen(false)} />
         <SupportChat onClose={() => setOpen(false)} />
       </PopoverContent>
     </Popover>

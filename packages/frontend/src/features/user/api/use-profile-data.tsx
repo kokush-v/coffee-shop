@@ -9,38 +9,38 @@ import { User } from "@/src/features/user/types/user";
 import { AxiosError } from "axios";
 
 export const useProfileData = () => {
-	const token = getCookie("access-token");
+  const token = getCookie("access-token");
 
-	return useQuery<User>({
-		queryKey: ["user"],
-		queryFn: async () => {
-			if (!token) {
-				throw "No cookie provided";
-			}
+  return useQuery<User>({
+    queryKey: ["user"],
+    queryFn: async () => {
+      if (!token) {
+        throw "No cookie provided";
+      }
 
-			api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-			try {
-				const req = await api.get("/user", {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				});
+      try {
+        const req = await api.get("/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-				return req.data;
-			} catch (e) {
-				const error = e as unknown as AxiosError;
+        return req.data;
+      } catch (e) {
+        const error = e as unknown as AxiosError;
 
-				if (error.status == 401) {
-					document.cookie = "access-token=;path=/";
-					api.defaults.headers["Authorization"] = null;
+        if (error.status == 401) {
+          document.cookie = "access-token=;path=/";
+          api.defaults.headers["Authorization"] = null;
 
-					return null;
-				}
+          return null;
+        }
 
-				throw "Something went wrong";
-			}
-		},
-		staleTime: 1000 * 60 * 60 * 5,
-	});
+        throw "Something went wrong";
+      }
+    },
+    staleTime: 1000 * 60 * 60 * 5,
+  });
 };

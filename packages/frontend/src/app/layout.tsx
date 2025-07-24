@@ -12,32 +12,40 @@ import { cn } from "@/src/lib/utils";
 import { Toaster } from "@/src/components/ui/sonner";
 
 import { WebsocketMessagingProvider } from "@/src/providers/websocket-messaging-provider";
+import { SupportMessagingProvider } from "@/src/providers/support-messaging-provider";
 
 const interSans = Inter({
-	variable: "--font-inter-sans",
-	subsets: ["latin", "cyrillic"],
+  variable: "--font-inter-sans",
+  subsets: ["latin", "cyrillic"],
 });
 
 export const metadata: Metadata = {
-	title: "Coffee Shop",
-	description: "Best coffee beans",
+  title: "Coffee Shop",
+  description: "Best coffee beans",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en">
-			<body className={cn("antialiased coffee-beans-bg", interSans.className)}>
-				<QueryProvider>
-					<ReduxProvider>
-						<WebsocketMessagingProvider>{children}</WebsocketMessagingProvider>
-					</ReduxProvider>
-				</QueryProvider>
-				<Toaster theme="light" toastOptions={{ style: { pointerEvents: "auto", userSelect: "none" } }} />
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className={cn("antialiased coffee-beans-bg", interSans.className)}>
+        <QueryProvider>
+          <ReduxProvider>
+            <WebsocketMessagingProvider>
+              <SupportMessagingProvider>{children}</SupportMessagingProvider>
+            </WebsocketMessagingProvider>
+          </ReduxProvider>
+        </QueryProvider>
+        <Toaster
+          theme="light"
+          toastOptions={{
+            style: { pointerEvents: "auto", userSelect: "none" },
+          }}
+        />
+      </body>
+    </html>
+  );
 }
