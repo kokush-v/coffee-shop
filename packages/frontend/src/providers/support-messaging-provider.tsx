@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 interface SupportMessagingContextType {
   sessionId: string | null;
@@ -20,18 +20,29 @@ export const SupportMessagingProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [sessionId, setSessionId] = useState<string | null>(
-    localStorage.getItem("session-id")
-  );
+  const [sessionId, setSessionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedSessionId = window.localStorage.getItem("session-id");
+      if (storedSessionId) {
+        setSessionId(storedSessionId);
+      }
+    }
+  }, []);
 
   const updateSessionId = useCallback((sessionId: string) => {
     setSessionId(sessionId);
-    localStorage.setItem("session-id", sessionId);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("session-id", sessionId);
+    }
   }, []);
 
   const leaveChatSession = useCallback(() => {
     setSessionId(null);
-    localStorage.removeItem("session-id");
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem("session-id");
+    }
   }, []);
 
   return (
